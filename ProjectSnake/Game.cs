@@ -217,7 +217,7 @@ namespace ProjectSnake
             string world;
             try
             {
-                world = System.IO.File.ReadAllText(@".\Levels\Level1.txt");
+                world = System.IO.File.ReadAllText(@"..\..\Levels\Level1.txt");
             }
             catch
             {
