@@ -9,16 +9,19 @@ namespace ProjectSnake
     //The class with all logic. It updates positions and draws the sprites.
     class Game
     {
-        Player player;
-        Treasure treasure;
-        Random rnd = new Random();
-        List<Potion> potionList = new List<Potion>();
-        List<Treasure> treasureList = new List<Treasure>();
-        List<Wall> wallList = new List<Wall>();
-        List<Stone> stoneList = new List<Stone>();
-        List<Monster> monsterList = new List<Monster>();
+        private Player player;
+        private Stairs stairs;
+        private Random rnd = new Random();
+        private Monster encounteredMonster;
+        private CollisionChecker Collision = new CollisionChecker();
+        private List<Potion> potionList = new List<Potion>();
+        private List<Treasure> treasureList = new List<Treasure>();
+        private List<Wall> wallList = new List<Wall>();
+        private List<Stone> stoneList = new List<Stone>();
+        private List<Monster> monsterList = new List<Monster>();
 
         public bool gameIsRunning = true;
+        public bool nextLevel = false;
         public int AMOUNT_OF_COLS;
         public int AMOUNT_OF_ROWS;
 
@@ -29,10 +32,10 @@ namespace ProjectSnake
         }
 
         //The "real" gameloop. 
-        //If the player collides with treasure or Enemy then the game will end.
+        //If the player collides with Enemy then the game will end.
         public void Update()
         {
-            while (gameIsRunning)
+            while (gameIsRunning == true && nextLevel == false)
             {
                 MoveCharacterPos();
                 CheckCollisions();
@@ -43,8 +46,21 @@ namespace ProjectSnake
         //Runs the ending function. Ends the game or level.
         public void End()
         {
-            Console.WriteLine("Game over! Starta om applikationen för att köra igen");
-            Console.ReadLine();
+            if (gameIsRunning == false)
+            {
+                Console.WriteLine("Game over! Starta om applikationen för att köra igen");
+                Console.ReadLine();
+            }
+            else if (nextLevel == true)
+            {
+                Console.WriteLine("Bra jobbat! Nästa bana! Tryck valfri knapp för att starta!");
+                Console.ReadLine();
+            }
+            else
+            {
+
+            }
+            
 
             //Selfnote: I senare stadie kan man köra om Init(); och sätta gameIsRunning boolen till true om man
             // vill starta om spelet utan att stänga fönstret :D!
@@ -135,64 +151,95 @@ namespace ProjectSnake
             //To fix: Player and monster and collide when there is something unpassable on the same
             // spot they change position to.
 
-            foreach (Treasure t in treasureList)
-            {
-                if (hasCollided(player.posX, player.posY, t.posX, t.posY))
-                {
-                    gameIsRunning = false;
-                }
-            }
 
-            foreach (Potion p in potionList)
-            {
-                if (hasCollided(player.posX, player.posY, p.posX, p.posY))
-                {
+            //Stairs and Player collision
 
-                }
-            }
-
+            
             foreach (Monster m in monsterList)
             {
-                //Tofix: Monsters that collide with the treasure or a potion writes over it when passing.
-                
-                if (hasCollided(player.posX, player.posY, m.posX, m.posY))
+                //Monster and Player collision
+                if (Collision.HasCollided(player, m))
                 {
-                    gameIsRunning = false;
-                }
-            }
+                    encounteredMonster = m;
+                    player.setPositionX(player.prevPosX);
+                    player.setPositionY(player.prevPosY);
+                    m.setPositionX(m.prevPosX);
+                    m.setPositionY(m.prevPosY);
 
-            foreach (Wall w in wallList)
-            {
-                foreach (Monster m in monsterList)
-                {
-                    if (hasCollided(m.posX, m.posY, w.posX, w.posY))
+                    player.SetHealth(-m.damage);
+                    m.SetHealth(-player.damage);
+                    
+                    //gameIsRunning = false;
+                    if (m.isDead())
                     {
-                        m.posX = m.prevPosX;
-                        m.posY = m.prevPosY;
+                        monsterList.Remove(m);
+                        encounteredMonster = null;
+                        break;
+                    }
+                    else if (player.isDead())
+                    {
+                        gameIsRunning = false;
+                        break;
                     }
                 }
 
-                if (hasCollided(player.posX, player.posY, w.posX, w.posY))
+                //Potion and Monster collision
+                foreach (Potion p in potionList)
                 {
-                    player.posX = player.prevPosX;
-                    player.posY = player.prevPosY;
+                    if(Collision.HasCollided(m, p))
+                    {
+                        potionList.Remove(p);
+                        break;
+                    }
+                }
+            }
+
+            foreach(Potion p in potionList)
+            {
+                //Potion and Player collision
+                if(Collision.HasCollided(player, p))
+                {
+                    player.SetHealth(p.giveHP);
                 }
             }
 
             foreach (Stone s in stoneList)
             {
+                foreach(Wall w in wallList)
+                {
+                    if (Collision.HasCollided(w, s))
+                    {
+                        gameIsRunning = false;
+                        //Sätter positionen till föregående position.
+                        //s.posX = s.prevPosX;
+                        //s.posY = s.prevPosY;
+                    }
+                }
+            }
+
+            foreach(Wall w in wallList)
+            {
+                if(Collision.HasCollided(player, w))
+                {
+                    player.posX = player.prevPosX;
+                    player.posY = player.prevPosY;
+                }
+
                 foreach(Monster m in monsterList)
                 {
-                    if (hasCollided(m.posX, m.posY, s.posX, s.posY))
+                    if (Collision.HasCollided(m, w))
                     {
                         m.posX = m.prevPosX;
                         m.posY = m.prevPosY;
                     }
                 }
-                if (hasCollided(player.posX, player.posY, s.posX, s.posY))
+            }
+
+            foreach (Treasure t in treasureList)
+            {
+                if (Collision.HasCollided(player, t))
                 {
-                    player.posX = player.prevPosX;
-                    player.posY = player.prevPosY;
+
                 }
             }
         }
@@ -207,14 +254,15 @@ namespace ProjectSnake
                 Console.SetCursorPosition(m.posX, m.posY);
                 Console.Write("M");
             }
-            
+            DrawMenu();
         }
-        
+
         //Initiating the world from file. 
         //Future: Add more levels and load them seperately after game is finished etc.
         public void InitWorld()
         {
             string world;
+
             try
             {
                 world = System.IO.File.ReadAllText(@"..\..\Levels\Level1.txt");
@@ -224,11 +272,10 @@ namespace ProjectSnake
                 Console.Write("Level not found...");
                 throw new System.IO.FileNotFoundException();
             }
-            
-            DefineSymbolsAndPos(world);
-            
-        }
 
+            DefineSymbolsAndPos(world);
+            DrawMenu();
+        }
         //Adds an object for the sprites. 
         //This defines the sprites, gives them an object with positions etc.
 
@@ -264,6 +311,11 @@ namespace ProjectSnake
                         tempTreasure.posY = indexY;
                         treasureList.Add(tempTreasure);
                         break;
+                    case '/':
+                        stairs = new Stairs();
+                        stairs.posX = indexX;
+                        stairs.posY = indexY;
+                        break;
                     case 'M':
                         Monster tempMonster = new Monster();
                         tempMonster.setPositionX(indexX);
@@ -297,18 +349,20 @@ namespace ProjectSnake
             AMOUNT_OF_ROWS = indexY;
         }
 
-        //Function to check if sprites collide with each other (Has the same position)
-        public bool hasCollided(int element1posX, int element1posY, int element2posX, int element2posY)
+        public void DrawMenu()
         {
-            if(element1posX == element2posX && element1posY == element2posY)
+            Console.SetCursorPosition(0, AMOUNT_OF_ROWS + 2);
+            Console.WriteLine("Health:"  + player.health);
+            Console.SetCursorPosition(0, AMOUNT_OF_ROWS + 3);
+            Console.WriteLine("Level:" + player.level);
+
+            if(encounteredMonster != null)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                Console.SetCursorPosition(0, AMOUNT_OF_ROWS + 5);
+                Console.WriteLine("Enemy Health:" + encounteredMonster.health);
             }
            
         }
+        
     }
 }

@@ -11,6 +11,7 @@ namespace ProjectSnake
     {
         public int posX;
         public int posY;
+        public int giveHP = 0;
 
         int IObject.posX
         {
@@ -18,15 +19,26 @@ namespace ProjectSnake
             set { posX = value; }
 
         }
-
+        
         int IObject.posY
         {
             get { return posY; }
             set { posY = value; }
         }
 
+        float IObject.expModifier
+        {
+            get { return 0; }
+
+        }
+
+        int IObject.giveHP
+        {
+            get { return giveHP; }
+
+        }
         
-        bool IObject.gDestructable
+        bool IObject.IsDestructable
         {
             get
             {
@@ -34,7 +46,7 @@ namespace ProjectSnake
             }
         }
 
-        bool IObject.gObtainable
+        bool IObject.IsObtainable
         {
             get
             {
@@ -42,14 +54,14 @@ namespace ProjectSnake
             }
         }
 
-        bool IObject.gPassable
+        bool IObject.IsPassable
         {
             get
             {
                 return false;
             }
         }
-        bool IObject.gMoveable
+        bool IObject.IsMoveable
         {
             get
             {

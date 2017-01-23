@@ -9,13 +9,15 @@ namespace ProjectSnake
     //A monster in the world, inherits from superclass Creature.cs
     class Monster : Creature
     {
-        public int prevPosX;
-        public int prevPosY;
+        private int expGiven = 0;
 
         public Monster()
         {
             color = ConsoleColor.Red;
-            hasCollided = false;
+            maxHealth = 20;
+            health = 8;
+            damage = 2;
+
         }
         public Monster(int posX, int posY)
         {
@@ -23,26 +25,17 @@ namespace ProjectSnake
             color = ConsoleColor.Red;
             this.posX = posX;
             this.posY = posY;
+            maxHealth = 20;
+            health = 8;
+            damage = 2;
         }
 
-        public void setPositionX(int x)
+        public void modifyGivenExp(int playerLevel)
         {
-            posX = x;
+            //Aint finished method
+            expGiven = 0;
         }
-
-        public void setPositionY(int y)
-        {
-            posY = y;
-        }
-        public void setPrevPositionX(int x)
-        {
-            prevPosX = x;
-        }
-
-        public void setPrevPositionY(int y)
-        {
-            prevPosY = y;
-        }
+        
     }
 }
 

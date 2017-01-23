@@ -11,11 +11,13 @@ namespace ProjectSnake
     {
         int posX { get; set; }
         int posY { get; set; }
-
+        float expModifier { get; }
+        int giveHP { get; }
+        
         //In the future: Make use of these bools beneath :).
-        bool gDestructable { get; }
-        bool gObtainable { get; }
-        bool gPassable { get; }
-        bool gMoveable { get; }
+        bool IsDestructable { get; }
+        bool IsObtainable { get; }
+        bool IsPassable { get; }
+        bool IsMoveable { get; }
     }
 }

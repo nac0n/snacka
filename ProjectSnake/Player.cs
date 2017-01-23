@@ -9,40 +9,45 @@ namespace ProjectSnake
     //Player in world, inherits from superclass Creature.cs
     class Player : Creature
     {
-        public int prevPosX;
-        public int prevPosY;
+        public int maxExp;
+        public double MaxExpModifier;
 
         public Player()
         {
             color = ConsoleColor.Yellow;
-            hasCollided = false;
+            level = 1;
+            maxHealth = 20;
+            health = 20;
+            damage = 2;
         }
+
         public Player(int posX, int posY)
         {
             color = ConsoleColor.Yellow;
             this.posX = posX;
             this.posY = posY;
-            hasCollided = false;
+            level = 1;
+            maxHealth = 20;
+            health = 20;
+            damage = 2;
+        }
+        
+        public bool MaxExpisReached()
+        {
+            return true;
         }
 
-        public void setPositionX(int x)
+        public int getMaxExp()
         {
-            posX = x;
+            double exp = maxExp* MaxExpModifier;
+            
+            return (int)exp;
         }
-
-        public void setPositionY(int y)
+        public double changeExpModifier()
         {
-            posY = y;
+            double modifier = level * 15.3;
+            return 0.0;
         }
-        public void setPrevPositionX(int x)
-        {
-            prevPosX = x;
-        }
-
-        public void setPrevPositionY(int y)
-        {
-            prevPosY = y;
-        }
-
+        
     }
 }

@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    //Treasure object in world. Touching it ends the game and in future
-    //brings the player to the next level.
-    class Treasure : IObject
+    class Stairs : IObject
     {
         public int posX;
         public int posY;
@@ -29,7 +27,7 @@ namespace ProjectSnake
 
         float IObject.expModifier
         {
-            get { return 50; }
+            get { return 0; }
 
         }
 
@@ -51,7 +49,7 @@ namespace ProjectSnake
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -62,7 +60,6 @@ namespace ProjectSnake
                 return true;
             }
         }
-
         bool IObject.IsMoveable
         {
             get
