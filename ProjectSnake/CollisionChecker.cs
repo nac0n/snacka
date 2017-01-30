@@ -14,7 +14,7 @@ namespace ProjectSnake
         {
 
         }
-
+        
         public bool HasCollided(Creature creature, IObject worldObject)
         {
             if(creature.posX == worldObject.posX && creature.posY == worldObject.posY)

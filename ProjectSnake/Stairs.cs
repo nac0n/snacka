@@ -67,5 +67,12 @@ namespace ProjectSnake
                 return false;
             }
         }
+        bool IObject.IsCollideable
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

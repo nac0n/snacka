@@ -56,11 +56,6 @@ namespace ProjectSnake
                 Console.WriteLine("Bra jobbat! Nästa bana! Tryck valfri knapp för att starta!");
                 Console.ReadLine();
             }
-            else
-            {
-
-            }
-            
 
             //Selfnote: I senare stadie kan man köra om Init(); och sätta gameIsRunning boolen till true om man
             // vill starta om spelet utan att stänga fönstret :D!
@@ -72,11 +67,11 @@ namespace ProjectSnake
             Console.SetCursorPosition(player.posX, player.posY);
             ConsoleKey input = Console.ReadKey().Key;
 
-            foreach(Monster m in monsterList)
-            {
-                m.setPrevPositionX(m.posX);
-                m.setPrevPositionY(m.posY);
-            }
+            //foreach(Monster m in monsterList)
+            //{
+            //    m.setPrevPositionX(m.posX);
+            //    m.setPrevPositionY(m.posY);
+            //}
 
             player.setPrevPositionX(player.posX);
             player.setPrevPositionY(player.posY);
@@ -112,33 +107,33 @@ namespace ProjectSnake
                 input == ConsoleKey.UpArrow||
                 input == ConsoleKey.DownArrow)
             {
-                foreach (Monster m in monsterList)
-                {
-                    int tempValue = rnd.Next(1, 5);
-                    switch (tempValue)
-                    {
-                        case 1:
-                            Console.SetCursorPosition(m.posX, m.posY);
-                            Console.Write(" ");
-                            m.posX -= 1;
-                            break;
-                        case 2:
-                            Console.SetCursorPosition(m.posX, m.posY);
-                            Console.Write(" ");
-                            m.posX += 1;
-                            break;
-                        case 3:
-                            Console.SetCursorPosition(m.posX, m.posY);
-                            Console.Write(" ");
-                            m.posY -= 1;
-                            break;
-                        case 4:
-                            Console.SetCursorPosition(m.posX, m.posY);
-                            Console.Write(" ");
-                            m.posY += 1;
-                            break;
-                    }
-                }
+                //foreach (Monster m in monsterList)
+                //{
+                //    int tempValue = rnd.Next(1, 5);
+                //    switch (tempValue)
+                //    {
+                //        case 1:
+                //            Console.SetCursorPosition(m.posX, m.posY);
+                //            Console.Write(" ");
+                //            m.posX -= 1;
+                //            break;
+                //        case 2:
+                //            Console.SetCursorPosition(m.posX, m.posY);
+                //            Console.Write(" ");
+                //            m.posX += 1;
+                //            break;
+                //        case 3:
+                //            Console.SetCursorPosition(m.posX, m.posY);
+                //            Console.Write(" ");
+                //            m.posY -= 1;
+                //            break;
+                //        case 4:
+                //            Console.SetCursorPosition(m.posX, m.posY);
+                //            Console.Write(" ");
+                //            m.posY += 1;
+                //            break;
+                //    }
+                //}
             }
         }
 
@@ -150,10 +145,8 @@ namespace ProjectSnake
         {
             //To fix: Player and monster and collide when there is something unpassable on the same
             // spot they change position to.
-
-
+            
             //Stairs and Player collision
-
             
             foreach (Monster m in monsterList)
             {
