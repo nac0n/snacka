@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    //Treasure object in world. Touching it ends the game and in future
-    //brings the player to the next level.
-    class Treasure : IObject
+    //Treasure object in world. Touching it leaves exp to the player
+    public class Treasure : IObject
     {
         public int posX;
         public int posY;

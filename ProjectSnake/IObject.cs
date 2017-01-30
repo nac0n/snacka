@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Interface for an object in the world. This does not include creatures which is an own superclass.
-    interface IObject
+    public interface IObject
     {
         int posX { get; set; }
         int posY { get; set; }

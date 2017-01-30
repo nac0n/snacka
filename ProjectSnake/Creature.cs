@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Superclass to define all "living" things in the world. Includes player and monsters.    
-    class Creature
+    public class Creature
     {   
         public string sprite { get; set; }
         public ConsoleColor color { get; set; }

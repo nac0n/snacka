@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    class Stairs : IObject
+    //Stairs object in the world. Ends the game and is gonna
+    //  bring the player to the next level in other versions.
+    public class Stairs : IObject
     {
         public int posX;
         public int posY;

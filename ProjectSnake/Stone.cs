@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Stone object in world. Is gonna be able to be moved and destroyed.
-    class Stone : IObject
+    public class Stone : IObject
     {
         public int posX;
         public int posY;

@@ -61,6 +61,13 @@ namespace ProjectSnake
                 return true;
             }
         }
+        bool IObject.IsMoveable
+        {
+            get
+            {
+                return false;
+            }
+        }
         bool IObject.IsCollideable
         {
             get

@@ -14,11 +14,11 @@ namespace ProjectSnake
         private Random rnd = new Random();
         private Monster encounteredMonster;
         private CollisionChecker Collision = new CollisionChecker();
-        private List<Potion> potionList = new List<Potion>();
-        private List<Treasure> treasureList = new List<Treasure>();
-        private List<Wall> wallList = new List<Wall>();
-        private List<Stone> stoneList = new List<Stone>();
-        private List<Monster> monsterList = new List<Monster>();
+        //private List<Potion> potionList = new List<Potion>();
+        //private List<Treasure> treasureList = new List<Treasure>();
+        //private List<Wall> wallList = new List<Wall>();
+        //private List<Stone> stoneList = new List<Stone>();
+        //private List<Monster> monsterList = new List<Monster>();
 
         public bool gameIsRunning = true;
         public bool nextLevel = false;
@@ -107,33 +107,33 @@ namespace ProjectSnake
                 input == ConsoleKey.UpArrow||
                 input == ConsoleKey.DownArrow)
             {
-                //foreach (Monster m in monsterList)
-                //{
-                //    int tempValue = rnd.Next(1, 5);
-                //    switch (tempValue)
-                //    {
-                //        case 1:
-                //            Console.SetCursorPosition(m.posX, m.posY);
-                //            Console.Write(" ");
-                //            m.posX -= 1;
-                //            break;
-                //        case 2:
-                //            Console.SetCursorPosition(m.posX, m.posY);
-                //            Console.Write(" ");
-                //            m.posX += 1;
-                //            break;
-                //        case 3:
-                //            Console.SetCursorPosition(m.posX, m.posY);
-                //            Console.Write(" ");
-                //            m.posY -= 1;
-                //            break;
-                //        case 4:
-                //            Console.SetCursorPosition(m.posX, m.posY);
-                //            Console.Write(" ");
-                //            m.posY += 1;
-                //            break;
-                //    }
-                //}
+                foreach (Monster m in monsterList)
+                {
+                    int tempValue = rnd.Next(1, 5);
+                    switch (tempValue)
+                    {
+                        case 1:
+                            Console.SetCursorPosition(m.posX, m.posY);
+                            Console.Write(" ");
+                            m.posX -= 1;
+                            break;
+                        case 2:
+                            Console.SetCursorPosition(m.posX, m.posY);
+                            Console.Write(" ");
+                            m.posX += 1;
+                            break;
+                        case 3:
+                            Console.SetCursorPosition(m.posX, m.posY);
+                            Console.Write(" ");
+                            m.posY -= 1;
+                            break;
+                        case 4:
+                            Console.SetCursorPosition(m.posX, m.posY);
+                            Console.Write(" ");
+                            m.posY += 1;
+                            break;
+                    }
+                }
             }
         }
 
@@ -143,98 +143,107 @@ namespace ProjectSnake
         //ToFix: Give only moving creatures a function for the collisioncheck. Helps readability.
         public void CheckCollisions()
         {
-            //To fix: Player and monster and collide when there is something unpassable on the same
-            // spot they change position to.
+            ////To fix: Player and monster and collide when there is something unpassable on the same
+            //// spot they change position to.
             
-            //Stairs and Player collision
+            ////Stairs and Player collision
             
-            foreach (Monster m in monsterList)
-            {
-                //Monster and Player collision
-                if (Collision.HasCollided(player, m))
-                {
-                    encounteredMonster = m;
-                    player.setPositionX(player.prevPosX);
-                    player.setPositionY(player.prevPosY);
-                    m.setPositionX(m.prevPosX);
-                    m.setPositionY(m.prevPosY);
+            //foreach (Monster m in monsterList)
+            //{
+            //    //Monster and Player collision
+            //    if (Collision.HasCollided(player, m))
+            //    {
+            //        encounteredMonster = m;
+            //        player.setPositionX(player.prevPosX);
+            //        player.setPositionY(player.prevPosY);
+            //        m.setPositionX(m.prevPosX);
+            //        m.setPositionY(m.prevPosY);
 
-                    player.SetHealth(-m.damage);
-                    m.SetHealth(-player.damage);
+            //        player.SetHealth(-m.damage);
+            //        m.SetHealth(-player.damage);
                     
-                    //gameIsRunning = false;
-                    if (m.isDead())
-                    {
-                        monsterList.Remove(m);
-                        encounteredMonster = null;
-                        break;
-                    }
-                    else if (player.isDead())
-                    {
-                        gameIsRunning = false;
-                        break;
-                    }
-                }
+            //        //gameIsRunning = false;
+            //        if (m.isDead())
+            //        {
+            //            monsterList.Remove(m);
+            //            encounteredMonster = null;
+            //            break;
+            //        }
+            //        else if (player.isDead())
+            //        {
+            //            gameIsRunning = false;
+            //            break;
+            //        }
+            //    }
+            //    else if (Collision.HasCollided(m, m))
+            //    {
+            //        m.setPositionX(m.prevPosX);
+            //        m.setPositionY(m.prevPosY);
+            //    }
+            //    else
+            //    {
 
-                //Potion and Monster collision
-                foreach (Potion p in potionList)
-                {
-                    if(Collision.HasCollided(m, p))
-                    {
-                        potionList.Remove(p);
-                        break;
-                    }
-                }
-            }
+            //    }
 
-            foreach(Potion p in potionList)
-            {
-                //Potion and Player collision
-                if(Collision.HasCollided(player, p))
-                {
-                    player.SetHealth(p.giveHP);
-                }
-            }
+            //    //Potion and Monster collision
+            //    foreach (Potion p in potionList)
+            //    {
+            //        if(Collision.HasCollided(m, p))
+            //        {
+            //            potionList.Remove(p);
+            //            break;
+            //        }
+            //    }
+            //}
 
-            foreach (Stone s in stoneList)
-            {
-                foreach(Wall w in wallList)
-                {
-                    if (Collision.HasCollided(w, s))
-                    {
-                        gameIsRunning = false;
-                        //Sätter positionen till föregående position.
-                        //s.posX = s.prevPosX;
-                        //s.posY = s.prevPosY;
-                    }
-                }
-            }
+            //foreach(Potion p in potionList)
+            //{
+            //    //Potion and Player collision
+            //    if(Collision.HasCollided(player, p))
+            //    {
+            //        player.SetHealth(p.giveHP);
+            //    }
+            //}
 
-            foreach(Wall w in wallList)
-            {
-                if(Collision.HasCollided(player, w))
-                {
-                    player.posX = player.prevPosX;
-                    player.posY = player.prevPosY;
-                }
+            //foreach (Stone s in stoneList)
+            //{
+            //    foreach(Wall w in wallList)
+            //    {
+            //        if (Collision.HasCollided(w, s))
+            //        {
+            //            gameIsRunning = false;
+            //            //Sätter positionen till föregående position.
+            //            //s.posX = s.prevPosX;
+            //            //s.posY = s.prevPosY;
+            //        }
+            //    }
+            //}
 
-                foreach(Monster m in monsterList)
-                {
-                    if (Collision.HasCollided(m, w))
-                    {
-                        m.posX = m.prevPosX;
-                        m.posY = m.prevPosY;
-                    }
-                }
-            }
+            //foreach(Wall w in wallList)
+            //{
+            //    if(Collision.HasCollided(player, w))
+            //    {
+            //        player.posX = player.prevPosX;
+            //        player.posY = player.prevPosY;
+            //    }
 
-            foreach (Treasure t in treasureList)
-            {
-                if (Collision.HasCollided(player, t))
-                {
+            //    foreach(Monster m in monsterList)
+            //    {
+            //        if (Collision.HasCollided(m, w))
+            //        {
+            //            m.posX = m.prevPosX;
+            //            m.posY = m.prevPosY;
+            //        }
+            //    }
+            //}
 
-                }
-            }
+            //foreach (Treasure t in treasureList)
+            //{
+            //    if (Collision.HasCollided(player, t))
+            //    {
+
+            //    }
+            //}
         }
 
         //Redraws the world after player has made an input.
@@ -290,24 +299,28 @@ namespace ProjectSnake
                         Stone tempStone = new Stone();
                         tempStone.posX = indexX;
                         tempStone.posY = indexY;
+                        ListHandler.GetInstance().GetObjectList().Add(tempStone);
                         stoneList.Add(tempStone);
                         break;
                     case 'P':
                         Potion tempPotion = new Potion();
                         tempPotion.posX = indexX;
                         tempPotion.posY = indexY;
+                        ListHandler.GetInstance().GetObjectList().Add(tempPotion);
                         potionList.Add(tempPotion);
                         break;
                     case '?':
                         Treasure tempTreasure = new Treasure();
                         tempTreasure.posX = indexX;
                         tempTreasure.posY = indexY;
+                        ListHandler.GetInstance().GetObjectList().Add(tempTreasure);
                         treasureList.Add(tempTreasure);
                         break;
                     case '/':
                         stairs = new Stairs();
                         stairs.posX = indexX;
                         stairs.posY = indexY;
+                        ListHandler.GetInstance().GetObjectList().Add(stairs);
                         break;
                     case 'M':
                         Monster tempMonster = new Monster();
@@ -319,6 +332,7 @@ namespace ProjectSnake
                         Wall tempWall = new Wall();
                         tempWall.posX = indexX;
                         tempWall.posY = indexY;
+                        ListHandler.GetInstance().GetObjectList().Add(tempWall);
                         wallList.Add(tempWall);
                         break;
                     default:

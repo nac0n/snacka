@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Player in world, inherits from superclass Creature.cs
-    class Player : Creature
+    public class Player : Creature
     {
         public int maxExp;
         public double MaxExpModifier;
