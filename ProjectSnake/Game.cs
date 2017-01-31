@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
     //The class with all logic. It updates positions and draws the sprites.
     class Game
     {
+
         private Player player;
         private Stairs stairs;
         private Random rnd = new Random();
         private Monster encounteredMonster;
-        private CollisionChecker Collision = new CollisionChecker();
-        //private List<Potion> potionList = new List<Potion>();
-        //private List<Treasure> treasureList = new List<Treasure>();
-        //private List<Wall> wallList = new List<Wall>();
-        //private List<Stone> stoneList = new List<Stone>();
-        //private List<Monster> monsterList = new List<Monster>();
 
         public bool gameIsRunning = true;
         public bool nextLevel = false;
@@ -28,17 +22,20 @@ namespace ProjectSnake
         //Initiates assets.
         public void Init()
         {
+            Console.Title = "Adventure!";
             InitWorld();
         }
 
         //The "real" gameloop. 
         //If the player collides with Enemy then the game will end.
+        //If player collides with Stairs, Next level will Load.
         public void Update()
         {
             while (gameIsRunning == true && nextLevel == false)
             {
                 MoveCharacterPos();
-                CheckCollisions();
+                CollisionHandler.CollisionCheck();
+                //CheckCollisions();
                 Draw();
             }
         }
@@ -107,7 +104,7 @@ namespace ProjectSnake
                 input == ConsoleKey.UpArrow||
                 input == ConsoleKey.DownArrow)
             {
-                foreach (Monster m in monsterList)
+                foreach (Monster m in ListHandler.GetInstance().GetMonsters())
                 {
                     int tempValue = rnd.Next(1, 5);
                     switch (tempValue)
@@ -251,7 +248,7 @@ namespace ProjectSnake
         {
             Console.SetCursorPosition(player.posX, player.posY);
             Console.Write("@");
-            foreach(Monster m in monsterList)
+            foreach(Monster m in ListHandler.GetInstance().GetMonsters())
             {
                 Console.SetCursorPosition(m.posX, m.posY);
                 Console.Write("M");
@@ -299,41 +296,41 @@ namespace ProjectSnake
                         Stone tempStone = new Stone();
                         tempStone.posX = indexX;
                         tempStone.posY = indexY;
-                        ListHandler.GetInstance().GetObjectList().Add(tempStone);
-                        stoneList.Add(tempStone);
+                        ListHandler.GetInstance().GetObjects().Add(tempStone);
+                        ListHandler.GetInstance().GetStones().Add(tempStone);
                         break;
                     case 'P':
                         Potion tempPotion = new Potion();
                         tempPotion.posX = indexX;
                         tempPotion.posY = indexY;
-                        ListHandler.GetInstance().GetObjectList().Add(tempPotion);
-                        potionList.Add(tempPotion);
+                        ListHandler.GetInstance().GetObjects().Add(tempPotion);
+                        ListHandler.GetInstance().GetPotions().Add(tempPotion);
                         break;
                     case '?':
                         Treasure tempTreasure = new Treasure();
                         tempTreasure.posX = indexX;
                         tempTreasure.posY = indexY;
-                        ListHandler.GetInstance().GetObjectList().Add(tempTreasure);
-                        treasureList.Add(tempTreasure);
+                        ListHandler.GetInstance().GetObjects().Add(tempTreasure);
+                        ListHandler.GetInstance().GetTreasures().Add(tempTreasure);
                         break;
                     case '/':
                         stairs = new Stairs();
                         stairs.posX = indexX;
                         stairs.posY = indexY;
-                        ListHandler.GetInstance().GetObjectList().Add(stairs);
+                        ListHandler.GetInstance().GetObjects().Add(stairs);
                         break;
                     case 'M':
                         Monster tempMonster = new Monster();
                         tempMonster.setPositionX(indexX);
                         tempMonster.setPositionY(indexY);
-                        monsterList.Add(tempMonster);
+                        ListHandler.GetInstance().GetMonsters().Add(tempMonster);
                         break;
                     case '#':
                         Wall tempWall = new Wall();
                         tempWall.posX = indexX;
                         tempWall.posY = indexY;
-                        ListHandler.GetInstance().GetObjectList().Add(tempWall);
-                        wallList.Add(tempWall);
+                        ListHandler.GetInstance().GetObjects().Add(tempWall);
+                        ListHandler.GetInstance().GetWalls().Add(tempWall);
                         break;
                     default:
                         break;

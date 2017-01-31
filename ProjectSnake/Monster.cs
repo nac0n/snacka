@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
     //A monster in the world, inherits from superclass Creature.cs
-    class Monster : Creature
+    public class Monster : Creature
     {
         private int expGiven = 0;
 
@@ -21,7 +20,6 @@ namespace ProjectSnake
         }
         public Monster(int posX, int posY)
         {
-
             color = ConsoleColor.Red;
             this.posX = posX;
             this.posY = posY;

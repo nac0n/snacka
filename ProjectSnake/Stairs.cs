@@ -8,23 +8,40 @@ namespace ProjectSnake
 {
     //Stairs object in the world. Ends the game and is gonna
     //  bring the player to the next level in other versions.
-    public class Stairs : IObject
+    public class Stairs : IObject, IHasPosition
     {
         public int posX;
         public int posY;
-        public int giveHP = 0;
+        public int prevPosX;
+        public int prevPosY;
+        private bool hasCollided;
+        private int giveHP = 0;
 
-        int IObject.posX
+        int IHasPosition.posX
         {
             get { return posX; }
             set { posX = value; }
 
         }
 
-        int IObject.posY
+        int IHasPosition.posY
         {
             get { return posY; }
             set { posY = value; }
+        }
+
+        int IHasPosition.prevPosX
+        {
+            get { return prevPosX; }
+
+            set { prevPosX = value; }
+        }
+
+        int IHasPosition.prevPosY
+        {
+            get { return prevPosY; }
+
+            set { prevPosY = value; }
         }
 
         float IObject.expModifier
@@ -69,12 +86,26 @@ namespace ProjectSnake
                 return false;
             }
         }
-        bool IObject.IsCollideable
+        bool IObject.HasCollided
         {
             get
             {
-                return true;
+                return hasCollided;
+            }
+
+            set
+            {
+                hasCollided = value;
             }
         }
+
+        
+        //bool IObject.IsCollideable
+        //{
+        //    get
+        //    {
+        //        return true;
+        //    }
+        //}
     }
 }

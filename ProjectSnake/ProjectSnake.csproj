@@ -45,10 +45,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollisionChecker.cs" />
+    <Compile Include="CollisionHandler.cs" />
     <Compile Include="Creature.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IObject.cs" />
+    <Compile Include="IHasCollision.cs" />
+    <Compile Include="IHasProperties.cs" />
+    <Compile Include="IHasPosition.cs" />
+    <Compile Include="LevelLoader.cs" />
     <Compile Include="ListHandler.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="Player.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stairs.cs" />
+    <Compile Include="StartMenu.cs" />
     <Compile Include="Stone.cs" />
     <Compile Include="Treasure.cs" />
     <Compile Include="Wall.cs" />

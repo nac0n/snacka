@@ -9,6 +9,7 @@ namespace ProjectSnake
     {
         //singleton class
         private static ListHandler theOne;
+
         private List<IObject> ObjectList;
         private List<Creature> CreatureList;
         private List<Potion> potionList;
@@ -30,7 +31,7 @@ namespace ProjectSnake
 
         public static ListHandler GetInstance()
         {
-            if(theOne == null)
+            if (theOne == null)
             {
                 theOne = new ListHandler();
             }

@@ -7,23 +7,40 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Treasure object in world. Touching it leaves exp to the player
-    public class Treasure : IObject
+    public class Treasure : IObject, IHasPosition
     {
         public int posX;
         public int posY;
-        public int giveHP = 0;
+        public int prevPosX;
+        public int prevPosY;
+        private int giveHP = 0;
+        private bool hasCollided;
 
-        int IObject.posX
+        int IHasPosition.posX
         {
             get { return posX; }
             set { posX = value; }
 
         }
 
-        int IObject.posY
+        int IHasPosition.posY
         {
             get { return posY; }
             set { posY = value; }
+        }
+
+        int IHasPosition.prevPosX
+        {
+            get { return prevPosX; }
+
+            set { prevPosX = value; }
+        }
+
+        int IHasPosition.prevPosY
+        {
+            get { return prevPosY; }
+
+            set { prevPosY = value; }
         }
 
         float IObject.expModifier
@@ -69,12 +86,24 @@ namespace ProjectSnake
                 return false;
             }
         }
-        bool IObject.IsCollideable
+        bool IObject.HasCollided
         {
             get
             {
-                return true;
+                return hasCollided;
+            }
+
+            set
+            {
+                hasCollided = value;
             }
         }
+        //bool IObject.IsCollideable
+        //{
+        //    get
+        //    {
+        //        return true;
+        //    }
+        //}
     }
 }

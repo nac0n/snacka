@@ -7,38 +7,56 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Potion object in world. It isn't doing much at the moment...
-    class Potion : IObject
+    public class Potion : IHasProperties, IHasPosition
     {
         public int posX;
         public int posY;
-        public int giveHP = 50;
+        public int prevPosX;
+        public int prevPosY;
+        private int giveHP = 50;
+        private bool hasCollided;
 
-        int IObject.posX
+        int IHasPosition.posX
         {
             get { return posX; }
             set { posX = value; }
 
         }
 
-        int IObject.posY
+        int IHasPosition.posY
         {
             get { return posY; }
             set { posY = value; }
         }
 
-        float IObject.expModifier
+        int IHasPosition.prevPosX
+        {
+            get { return prevPosX; }
+
+            set { prevPosX = value; }
+        }
+
+        int IHasPosition.prevPosY
+        {
+            get { return prevPosY; }
+
+            set { prevPosY = value; }
+        }
+
+
+        float IHasProperties.expModifier
         {
             get { return 0; }
 
         }
 
-        int IObject.giveHP
+        int IHasProperties.giveHP
         {
             get { return giveHP; }
 
         }
 
-        bool IObject.IsDestructable
+        bool IHasCollision.IsDestructable
         {
             get
             {
@@ -46,7 +64,7 @@ namespace ProjectSnake
             }
         }
 
-        bool IObject.IsObtainable
+        bool IHasProperties.IsObtainable
         {
             get
             {
@@ -68,12 +86,24 @@ namespace ProjectSnake
                 return false;
             }
         }
-        bool IObject.IsCollideable
+
+        bool IObject.HasCollided
         {
             get
             {
-                return true;
+                return hasCollided;
+            }
+
+            set
+            {
+                hasCollided = value;
             }
         }
+        //bool IObject.IsCollideable
+        //{
+        //    get
+        //    {
+        //        return true;
+        //    }
     }
 }
