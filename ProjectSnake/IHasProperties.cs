@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
@@ -11,7 +10,6 @@ namespace ProjectSnake
     {
         float expModifier { get; }
         int giveHP { get; }
-        bool HasCollided { get; set; }
         
     }
 }

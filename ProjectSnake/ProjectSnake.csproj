@@ -48,7 +48,8 @@
     <Compile Include="CollisionHandler.cs" />
     <Compile Include="Creature.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IHasCollision.cs" />
+    <Compile Include="ICollideable.cs" />
+    <Compile Include="ICollideableObject.cs" />
     <Compile Include="IHasProperties.cs" />
     <Compile Include="IHasPosition.cs" />
     <Compile Include="LevelLoader.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stairs.cs" />
-    <Compile Include="StartMenu.cs" />
     <Compile Include="Stone.cs" />
     <Compile Include="Treasure.cs" />
     <Compile Include="Wall.cs" />

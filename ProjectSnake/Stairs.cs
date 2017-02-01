@@ -8,25 +8,26 @@ namespace ProjectSnake
 {
     //Stairs object in the world. Ends the game and is gonna
     //  bring the player to the next level in other versions.
-    public class Stairs : IObject, IHasPosition
+    public class Stairs : ICollideableObject
     {
         public int posX;
         public int posY;
         public int prevPosX;
         public int prevPosY;
-        private bool hasCollided;
         private int giveHP = 0;
+        private bool HasCollided;
 
         int IHasPosition.posX
         {
             get { return posX; }
-            set { posX = value; }
 
+            set { posX = value; }
         }
 
         int IHasPosition.posY
         {
             get { return posY; }
+
             set { posY = value; }
         }
 
@@ -44,68 +45,41 @@ namespace ProjectSnake
             set { prevPosY = value; }
         }
 
-        float IObject.expModifier
+        bool ICollideable.HasCollided
+        {
+            get { return HasCollided; }
+
+            set { HasCollided = value; }
+        }
+
+        bool ICollideable.IsDestructable
+        {
+            get { return false; }
+        }
+
+        bool ICollideable.IsObtainable
+        {
+            get { return false; }
+        }
+
+        bool ICollideable.IsPassable
+        {
+            get { return false; }
+        }
+
+        bool ICollideable.IsMoveable
+        {
+            get { return false; }
+        }
+
+        float IHasProperties.expModifier
         {
             get { return 0; }
-
         }
 
-        int IObject.giveHP
+        int IHasProperties.giveHP
         {
-            get { return giveHP; }
-
+            get { return 0; }
         }
-
-        bool IObject.IsDestructable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        bool IObject.IsObtainable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        bool IObject.IsPassable
-        {
-            get
-            {
-                return true;
-            }
-        }
-        bool IObject.IsMoveable
-        {
-            get
-            {
-                return false;
-            }
-        }
-        bool IObject.HasCollided
-        {
-            get
-            {
-                return hasCollided;
-            }
-
-            set
-            {
-                hasCollided = value;
-            }
-        }
-
-        
-        //bool IObject.IsCollideable
-        //{
-        //    get
-        //    {
-        //        return true;
-        //    }
-        //}
     }
 }

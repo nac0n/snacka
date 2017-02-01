@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    public interface IHasCollision
+    public interface ICollideable
     {
+        bool HasCollided { get; set; }
+
         bool IsDestructable { get; }
         bool IsObtainable { get; }
         bool IsPassable { get; }

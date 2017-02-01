@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    interface IHasPosition
+    public interface IHasPosition
     {
         int posX { get; set; }
         int posY { get; set; }

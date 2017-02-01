@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 namespace ProjectSnake
 {
     //Potion object in world. It isn't doing much at the moment...
-    public class Potion : IHasProperties, IHasPosition
+    public class Potion : ICollideableObject
     {
         public int posX;
         public int posY;
         public int prevPosX;
         public int prevPosY;
         private int giveHP = 50;
-        private bool hasCollided;
+        private bool HasCollided;
 
         int IHasPosition.posX
         {
             get { return posX; }
-            set { posX = value; }
 
+            set { posX = value; }
         }
 
         int IHasPosition.posY
         {
             get { return posY; }
+
             set { posY = value; }
         }
 
@@ -43,67 +44,41 @@ namespace ProjectSnake
             set { prevPosY = value; }
         }
 
+        bool ICollideable.HasCollided
+        {
+            get { return HasCollided; }
+
+            set { HasCollided = value; }
+        }
+
+        bool ICollideable.IsDestructable
+        {
+            get { return true; }
+        }
+
+        bool ICollideable.IsObtainable
+        {
+            get { return true; }
+        }
+
+        bool ICollideable.IsPassable
+        {
+            get { return false; }
+        }
+
+        bool ICollideable.IsMoveable
+        {
+            get { return false; }
+        }
 
         float IHasProperties.expModifier
         {
             get { return 0; }
-
         }
 
         int IHasProperties.giveHP
         {
-            get { return giveHP; }
-
+            get { return 20; }
         }
-
-        bool IHasCollision.IsDestructable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        bool IHasProperties.IsObtainable
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        bool IObject.IsPassable
-        {
-            get
-            {
-                return true;
-            }
-        }
-        bool IObject.IsMoveable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        bool IObject.HasCollided
-        {
-            get
-            {
-                return hasCollided;
-            }
-
-            set
-            {
-                hasCollided = value;
-            }
-        }
-        //bool IObject.IsCollideable
-        //{
-        //    get
-        //    {
-        //        return true;
-        //    }
     }
 }

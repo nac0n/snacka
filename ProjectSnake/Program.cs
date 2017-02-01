@@ -16,6 +16,7 @@ namespace ProjectSnake
         //End() runs when the game is finished. This will include finishing a level.
         static void Main(string[] args)
         {
+            Console.Title = "Adventure!";
             Console.CursorVisible = false;
             Game gGame = new Game();
             

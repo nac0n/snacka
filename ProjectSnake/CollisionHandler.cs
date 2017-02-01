@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
@@ -13,9 +12,19 @@ namespace ProjectSnake
     {
         //Initialcheck to see if collision has happened.
 
-        public static void CollisionCheck ()
+        public static void CollisionCheck()
         {
+            for(int i = 0; i < ListHandler.GetInstance().GetAllCollideables().Count; i++)
+            {
+                for (int x = i; x < ListHandler.GetInstance().GetAllCollideables().Count; x++)
+                {
+                    if(ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posX == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posX &&
+                       ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posY == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posY)
+                    {
 
+                    }
+                }
+            }
         }
 
         public static void DestroyObject()

@@ -22,7 +22,6 @@ namespace ProjectSnake
         //Initiates assets.
         public void Init()
         {
-            Console.Title = "Adventure!";
             InitWorld();
         }
 
@@ -70,8 +69,8 @@ namespace ProjectSnake
             //    m.setPrevPositionY(m.posY);
             //}
 
-            player.setPrevPositionX(player.posX);
-            player.setPrevPositionY(player.posY);
+            player.prevPosX = player.posX;
+            player.prevPosY = player.posY;
 
             switch (input)
             {
@@ -247,11 +246,11 @@ namespace ProjectSnake
         public void Draw()
         {
             Console.SetCursorPosition(player.posX, player.posY);
-            Console.Write("@");
+            Console.Write(player.sprite);
             foreach(Monster m in ListHandler.GetInstance().GetMonsters())
             {
                 Console.SetCursorPosition(m.posX, m.posY);
-                Console.Write("M");
+                Console.Write(m.sprite);
             }
             DrawMenu();
         }
@@ -289,47 +288,47 @@ namespace ProjectSnake
                 {
                     case '@':
                         player = new Player();
-                        player.setPositionX(indexX);
-                        player.setPositionY(indexY);
+                        player.posX = indexX;
+                        player.posY = indexY;
                         break;
                     case 'O':
                         Stone tempStone = new Stone();
                         tempStone.posX = indexX;
                         tempStone.posY = indexY;
-                        ListHandler.GetInstance().GetObjects().Add(tempStone);
+                        ListHandler.GetInstance().GetAllCollideables().Add(tempStone);
                         ListHandler.GetInstance().GetStones().Add(tempStone);
                         break;
                     case 'P':
                         Potion tempPotion = new Potion();
                         tempPotion.posX = indexX;
                         tempPotion.posY = indexY;
-                        ListHandler.GetInstance().GetObjects().Add(tempPotion);
+                        ListHandler.GetInstance().GetAllCollideables().Add(tempPotion);
                         ListHandler.GetInstance().GetPotions().Add(tempPotion);
                         break;
                     case '?':
                         Treasure tempTreasure = new Treasure();
                         tempTreasure.posX = indexX;
                         tempTreasure.posY = indexY;
-                        ListHandler.GetInstance().GetObjects().Add(tempTreasure);
+                        ListHandler.GetInstance().GetAllCollideables().Add(tempTreasure);
                         ListHandler.GetInstance().GetTreasures().Add(tempTreasure);
                         break;
                     case '/':
                         stairs = new Stairs();
                         stairs.posX = indexX;
                         stairs.posY = indexY;
-                        ListHandler.GetInstance().GetObjects().Add(stairs);
+                        ListHandler.GetInstance().GetAllCollideables().Add(stairs);
                         break;
                     case 'M':
                         Monster tempMonster = new Monster();
-                        tempMonster.setPositionX(indexX);
-                        tempMonster.setPositionY(indexY);
+                        tempMonster.posX = indexX;
+                        tempMonster.posY = indexY;
                         ListHandler.GetInstance().GetMonsters().Add(tempMonster);
                         break;
                     case '#':
                         Wall tempWall = new Wall();
                         tempWall.posX = indexX;
                         tempWall.posY = indexY;
-                        ListHandler.GetInstance().GetObjects().Add(tempWall);
+                        ListHandler.GetInstance().GetAllCollideables().Add(tempWall);
                         ListHandler.GetInstance().GetWalls().Add(tempWall);
                         break;
                     default:

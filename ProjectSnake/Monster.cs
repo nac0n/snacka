@@ -8,32 +8,42 @@ namespace ProjectSnake
     //A monster in the world, inherits from superclass Creature.cs
     public class Monster : Creature
     {
-        private int expGiven = 0;
-
+        private int givenExp = 10;
+        
         public Monster()
         {
+            sprite = "M";
+            level = 1;
             color = ConsoleColor.Red;
             maxHealth = 20;
-            health = 8;
+            health = maxHealth;
             damage = 2;
 
         }
         public Monster(int posX, int posY)
         {
+            sprite = "M";
+            level = 1;
             color = ConsoleColor.Red;
             this.posX = posX;
             this.posY = posY;
             maxHealth = 20;
-            health = 8;
+            health = maxHealth;
             damage = 2;
         }
 
-        public void modifyGivenExp(int playerLevel)
+        public void LevelUp()
         {
-            //Aint finished method
-            expGiven = 0;
+            //Do a check later if player has finished level or not
+            //if(course > level);
+
+            level += 1;
+            givenExp *= level;
+            maxHealth += 10;
+            health = maxHealth;
+            damage += 2;
         }
-        
+
     }
 }
 

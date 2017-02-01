@@ -8,11 +8,14 @@ namespace ProjectSnake
     //Player in world, inherits from superclass Creature.cs
     public class Player : Creature
     {
-        public int maxExp;
-        public double MaxExpModifier;
+        private int currentExp;
+        private int maxExp;
+        private double MaxExpModifier;
 
         public Player()
         {
+            sprite = "@";
+            currentExp = 0;
             color = ConsoleColor.Yellow;
             level = 1;
             maxHealth = 20;
@@ -22,6 +25,8 @@ namespace ProjectSnake
 
         public Player(int posX, int posY)
         {
+            sprite = "@";
+            currentExp = 0;
             color = ConsoleColor.Yellow;
             this.posX = posX;
             this.posY = posY;
@@ -31,21 +36,27 @@ namespace ProjectSnake
             damage = 2;
         }
         
-        public bool MaxExpisReached()
+        public void LevelUp()
         {
-            return true;
+            level += 1;
+            double temp = maxExp * MaxExpModifier;
+            maxExp = (int)temp;
+            currentExp = 0;
         }
 
-        public int getMaxExp()
+        public void GiveExp(Monster m)
         {
-            double exp = maxExp* MaxExpModifier;
-            
-            return (int)exp;
+            currentExp = m.GetMaxHealth() + m.GetLevel();
         }
-        public double changeExpModifier()
+
+        public int GetMaxExp()
         {
-            double modifier = level * 15.3;
-            return 0.0;
+            return maxExp;
+        }
+
+        public double GetMaxExpModifier()
+        {
+            return MaxExpModifier;
         }
         
     }
