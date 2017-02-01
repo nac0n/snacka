@@ -25,7 +25,7 @@ namespace ProjectSnake
             InitWorld();
         }
 
-        //The "real" gameloop. 
+        //The logic. 
         //If the player collides with Enemy then the game will end.
         //If player collides with Stairs, Next level will Load.
         public void Update()
@@ -106,6 +106,9 @@ namespace ProjectSnake
                 foreach (Monster m in ListHandler.GetInstance().GetMonsters())
                 {
                     int tempValue = rnd.Next(1, 5);
+                    m.prevPosX = m.posX;
+                    m.prevPosY = m.posY;
+
                     switch (tempValue)
                     {
                         case 1:
@@ -290,6 +293,7 @@ namespace ProjectSnake
                         player = new Player();
                         player.posX = indexX;
                         player.posY = indexY;
+                        ListHandler.GetInstance().GetAllCollideables().Add(player);
                         break;
                     case 'O':
                         Stone tempStone = new Stone();
@@ -322,6 +326,7 @@ namespace ProjectSnake
                         Monster tempMonster = new Monster();
                         tempMonster.posX = indexX;
                         tempMonster.posY = indexY;
+                        ListHandler.GetInstance().GetAllCollideables().Add(tempMonster);
                         ListHandler.GetInstance().GetMonsters().Add(tempMonster);
                         break;
                     case '#':

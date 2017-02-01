@@ -87,6 +87,12 @@ namespace ProjectSnake
             get { return 0; }
         }
 
+        void ICollideableObject.SetBackPosition()
+        {
+            posX = prevPosX;
+            posY = prevPosY;
+        }
+
         public void SetLevel(int newLevel)
         {
             level = newLevel;

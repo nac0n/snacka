@@ -14,5 +14,6 @@ namespace ProjectSnake
         bool IsObtainable { get; }
         bool IsPassable { get; }
         bool IsMoveable { get; }
+        
     }
 }

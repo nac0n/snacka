@@ -81,5 +81,10 @@ namespace ProjectSnake
             get { return 0; }
         }
 
+        void ICollideableObject.SetBackPosition()
+        {
+
+        }
+
     }
 }

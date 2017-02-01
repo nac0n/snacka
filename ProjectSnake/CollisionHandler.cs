@@ -14,15 +14,39 @@ namespace ProjectSnake
 
         public static void CollisionCheck()
         {
-            for(int i = 0; i < ListHandler.GetInstance().GetAllCollideables().Count; i++)
+
+            //foreach(ICollideableObject co in ListHandler.GetInstance().GetAllCollideables())
+            //{
+            //    foreach (ICollideableObject co2 in ListHandler.GetInstance().GetAllCollideables())
+            //    {
+            //        if(co.posX == co2.posX && co.posY == co2.posY && co != co2 )
+            //        {
+            //            co.SetBackPosition();
+            //            co2.SetBackPosition();
+            //        }
+            //    }
+            //}
+
+            for (int i = 0; i < ListHandler.GetInstance().GetAllCollideables().Count; i++)
             {
-                for (int x = i; x < ListHandler.GetInstance().GetAllCollideables().Count; x++)
+                if(i != ListHandler.GetInstance().GetAllCollideables().Count -1)
                 {
-                    if(ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posX == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posX &&
-                       ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posY == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posY)
+                    for (int x = i+1; x < ListHandler.GetInstance().GetAllCollideables().Count; x++)
                     {
+                        if(ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posX == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posX &&
+                           ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posY == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posY)
+                        {
+                            ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided = true;
+                            ListHandler.GetInstance().GetAllCollideables().ElementAt(x).HasCollided = true;
+                        }
 
                     }
+                }
+
+                if (ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided == true)
+                {
+                    ListHandler.GetInstance().GetAllCollideables().ElementAt(i).SetBackPosition();
+                    ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided = false;
                 }
             }
         }
