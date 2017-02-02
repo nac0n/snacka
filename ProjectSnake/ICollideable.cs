@@ -10,6 +10,7 @@ namespace ProjectSnake
     {
         bool HasCollided { get; set; }
 
+        bool IsKillable { get; }
         bool IsDestructable { get; }
         bool IsObtainable { get; }
         bool IsPassable { get; }

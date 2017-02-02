@@ -10,135 +10,155 @@ namespace ProjectSnake
 
     public static class CollisionHandler
     {
+
         //Initialcheck to see if collision has happened.
 
         public static void CollisionCheck()
         {
-
-            //foreach(ICollideableObject co in ListHandler.GetInstance().GetAllCollideables())
-            //{
-            //    foreach (ICollideableObject co2 in ListHandler.GetInstance().GetAllCollideables())
-            //    {
-            //        if(co.posX == co2.posX && co.posY == co2.posY && co != co2 )
-            //        {
-            //            co.SetBackPosition();
-            //            co2.SetBackPosition();
-            //        }
-            //    }
-            //}
-
             for (int i = 0; i < ListHandler.GetInstance().GetAllCollideables().Count; i++)
             {
-                if(i != ListHandler.GetInstance().GetAllCollideables().Count -1)
+                var clist = ListHandler.GetInstance().GetAllCollideables();
+
+                if (i != clist.Count -1)
                 {
-                    for (int x = i+1; x < ListHandler.GetInstance().GetAllCollideables().Count; x++)
+                    
+                    for (int x = i+1; x < clist.Count; x++)
                     {
-                        if(ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posX == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posX &&
-                           ListHandler.GetInstance().GetAllCollideables().ElementAt(i).posY == ListHandler.GetInstance().GetAllCollideables().ElementAt(x).posY)
+                        if(clist.ElementAt(i).posX == clist.ElementAt(x).posX && clist.ElementAt(i).posY == clist.ElementAt(x).posY)
                         {
-                            ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided = true;
-                            ListHandler.GetInstance().GetAllCollideables().ElementAt(x).HasCollided = true;
+                            //clist.ElementAt(i).HasCollided = true;
+                            //clist.ElementAt(x).HasCollided = true;
+                            AfterCollision(clist.ElementAt(i), clist.ElementAt(x));
+
+                            //if (clist.ElementAt(x).HasCollided == true)
+                            //{
+                            //  clist.ElementAt(x).SetBackPosition();
+                            //  clist.ElementAt(x).HasCollided = false;
+                            //}
                         }
-
                     }
-                }
-
-                if (ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided == true)
-                {
-                    ListHandler.GetInstance().GetAllCollideables().ElementAt(i).SetBackPosition();
-                    ListHandler.GetInstance().GetAllCollideables().ElementAt(i).HasCollided = false;
                 }
             }
         }
 
-        public static void DestroyObject()
+        public static void AfterCollision(ICollideableObject x, ICollideableObject y)
+        {
+            if(x.IsDestructable || y.IsDestructable)
+            {
+                if(x.IsDestructable)
+                {
+                    RemoveObject(x);
+                }
+                if(y.IsDestructable)
+                {
+                    RemoveObject(y);
+                }
+                else
+                {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
+                }
+            }
+            else if(x.IsObtainable || y.IsObtainable)
+            {
+                if(x.IsObtainable)
+                {
+
+                }
+                if(y.IsObtainable)
+                {
+
+                }
+                else
+                {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
+                }
+            }
+            else if (x.IsMoveable || y.IsMoveable)
+            {
+                if (x.IsObtainable)
+                {
+
+                }
+                if (y.IsObtainable)
+                {
+
+                }
+                else
+                {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
+                }
+            }
+            else if (x.IsPassable || y.IsPassable)
+            {
+                if (x.IsPassable)
+                {
+
+                }
+                if (y.IsPassable)
+                {
+
+                }
+                else
+                {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
+                }
+            }
+            else if (x.IsKillable && y.IsKillable)
+            {
+                if (x.IsKillable)
+                {
+
+                }
+                if (y.IsKillable)
+                {
+
+                }
+                else
+                {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
+                }
+            }
+        }
+
+        public static void RemoveObject(ICollideableObject co)
+        {
+            if(co.IsDestructable)
+            {
+                PurgeFromWorld(co);
+            }
+        }
+
+        public static void ObtainObject(ICollideableObject co)
         {
 
         }
 
-        public static void ObtainObject()
+        public static void MoveObject(ICollideableObject co)
         {
 
         }
 
-        public static void MoveObject()
+        public static void Kill(ICollideableObject co)
         {
 
         }
 
-        //        foreach (Creature c in ListHandler.GetInstance().GetCreatures())
-        //            {
-        //                foreach(IObject io in ListHandler.GetInstance().GetObjects())
-        //                {
-        //                    if (c.posX == io.posX && c.posY == io.posY)
-        //                    {
-        //                        c.HasCollided = true;
-        //                        io.HasCollided = true;
-        //                    }
-        //}
-        //            }
 
-        //            foreach (IObject io in ListHandler.GetInstance().GetObjects())
-        //            {
-        //                foreach (IObject io2 in ListHandler.GetInstance().GetObjects())
-        //                {
-        //                    if (io.posX == io2.posX && io.posY == io2.posY)
-        //                    {
-        //                        io.HasCollided = true;
-        //                        io2.HasCollided = true;
-        //                    }
-        //                }
-        //            }
-        //            foreach (Creature c in ListHandler.GetInstance().GetCreatures())
-        //            {
-        //                foreach (Creature c2 in ListHandler.GetInstance().GetObjects())
-        //                {
-        //                    if (c.posX == c2.posX && c.posY == c2.posY)
-        //                    {
-        //                        c.HasCollided = true;
-        //                        c2.HasCollided = true;
-        //                    }
-        //                }
-        //            }
-        //public static bool HasCollided(Creature c1, Creature c2)
-        //{
 
-        //    return false;
-        //}
-
-        //public bool HasCollided(Creature creature, IObject worldObject)
-        //{
-        //    if(creature.posX == worldObject.posX && creature.posY == worldObject.posY)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public bool HasCollided(Creature creature1, Creature creature2)
-        //{
-        //    if (creature1.posX == creature2.posX && creature1.posY == creature2.posY)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-        //public bool HasCollided(IObject worldObject1, IObject worldObject2)
-        //{
-        //    if (worldObject1.posX == worldObject2.posX && worldObject1.posY == worldObject2.posY)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        public static void PurgeFromWorld(ICollideableObject co)
+        {
+            for (int i = 0; i < ListHandler.GetInstance().GetAllCollideables().Count; i++)
+            {
+                if(co == ListHandler.GetInstance().GetAllCollideables().ElementAt(i))
+                {
+                    ListHandler.GetInstance().GetAllCollideables().RemoveAt(i);
+                }
+            }
+        }
     }
 }

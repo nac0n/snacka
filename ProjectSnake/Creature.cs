@@ -57,9 +57,14 @@ namespace ProjectSnake
             set { HasCollided = value; }
         }
 
-        bool ICollideable.IsDestructable
+        bool ICollideable.IsKillable
         {
             get { return true; }
+        }
+
+        bool ICollideable.IsDestructable
+        {
+            get { return false; }
         }
 
         bool ICollideable.IsObtainable
@@ -74,9 +79,10 @@ namespace ProjectSnake
 
         bool ICollideable.IsMoveable
         {
-            get { return true; }
+            get { return false; }
         }
-
+        
+        
         float IHasProperties.expModifier
         {
             get { return 0; }

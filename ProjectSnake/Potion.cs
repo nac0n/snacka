@@ -51,6 +51,11 @@ namespace ProjectSnake
             set { HasCollided = value; }
         }
 
+        bool ICollideable.IsKillable
+        {
+            get { return true; }
+        }
+
         bool ICollideable.IsDestructable
         {
             get { return true; }
@@ -85,5 +90,6 @@ namespace ProjectSnake
         {
 
         }
+
     }
 }

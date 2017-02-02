@@ -34,7 +34,6 @@ namespace ProjectSnake
             {
                 MoveCharacterPos();
                 CollisionHandler.CollisionCheck();
-                //CheckCollisions();
                 Draw();
             }
         }
@@ -135,116 +134,7 @@ namespace ProjectSnake
                 }
             }
         }
-
-        //The collisioncheck, this function runs after the player and monsters has changed their position.
-        //It checks everything in the world.
-
-        //ToFix: Give only moving creatures a function for the collisioncheck. Helps readability.
-        public void CheckCollisions()
-        {
-            ////To fix: Player and monster and collide when there is something unpassable on the same
-            //// spot they change position to.
-            
-            ////Stairs and Player collision
-            
-            //foreach (Monster m in monsterList)
-            //{
-            //    //Monster and Player collision
-            //    if (Collision.HasCollided(player, m))
-            //    {
-            //        encounteredMonster = m;
-            //        player.setPositionX(player.prevPosX);
-            //        player.setPositionY(player.prevPosY);
-            //        m.setPositionX(m.prevPosX);
-            //        m.setPositionY(m.prevPosY);
-
-            //        player.SetHealth(-m.damage);
-            //        m.SetHealth(-player.damage);
-                    
-            //        //gameIsRunning = false;
-            //        if (m.isDead())
-            //        {
-            //            monsterList.Remove(m);
-            //            encounteredMonster = null;
-            //            break;
-            //        }
-            //        else if (player.isDead())
-            //        {
-            //            gameIsRunning = false;
-            //            break;
-            //        }
-            //    }
-            //    else if (Collision.HasCollided(m, m))
-            //    {
-            //        m.setPositionX(m.prevPosX);
-            //        m.setPositionY(m.prevPosY);
-            //    }
-            //    else
-            //    {
-
-            //    }
-
-            //    //Potion and Monster collision
-            //    foreach (Potion p in potionList)
-            //    {
-            //        if(Collision.HasCollided(m, p))
-            //        {
-            //            potionList.Remove(p);
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //foreach(Potion p in potionList)
-            //{
-            //    //Potion and Player collision
-            //    if(Collision.HasCollided(player, p))
-            //    {
-            //        player.SetHealth(p.giveHP);
-            //    }
-            //}
-
-            //foreach (Stone s in stoneList)
-            //{
-            //    foreach(Wall w in wallList)
-            //    {
-            //        if (Collision.HasCollided(w, s))
-            //        {
-            //            gameIsRunning = false;
-            //            //Sätter positionen till föregående position.
-            //            //s.posX = s.prevPosX;
-            //            //s.posY = s.prevPosY;
-            //        }
-            //    }
-            //}
-
-            //foreach(Wall w in wallList)
-            //{
-            //    if(Collision.HasCollided(player, w))
-            //    {
-            //        player.posX = player.prevPosX;
-            //        player.posY = player.prevPosY;
-            //    }
-
-            //    foreach(Monster m in monsterList)
-            //    {
-            //        if (Collision.HasCollided(m, w))
-            //        {
-            //            m.posX = m.prevPosX;
-            //            m.posY = m.prevPosY;
-            //        }
-            //    }
-            //}
-
-            //foreach (Treasure t in treasureList)
-            //{
-            //    if (Collision.HasCollided(player, t))
-            //    {
-
-            //    }
-            //}
-        }
-
+        
         //Redraws the world after player has made an input.
         public void Draw()
         {
