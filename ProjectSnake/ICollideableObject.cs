@@ -2,7 +2,7 @@
 
 namespace ProjectSnake
 {
-    abstract class ICollideableObject: IHasPosition, ICollideable, IHasProperties
+    abstract class CollideableObject: IHasPosition, ICollideable, IHasProperties
     {
 
         void SetBackPosition();

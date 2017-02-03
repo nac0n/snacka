@@ -96,7 +96,6 @@ namespace ProjectSnake
         void ICollideableObject.GiveHP(ICollideableObject obj)
         {
             
-            
         }
 
         void ICollideableObject.SetBackPosition()
