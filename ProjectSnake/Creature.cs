@@ -88,9 +88,15 @@ namespace ProjectSnake
             get { return 0; }
         }
 
-        int IHasProperties.giveHP
+        int IHasProperties.givenHP
         {
             get { return 0; }
+        }
+
+        void ICollideableObject.GiveHP(ICollideableObject obj)
+        {
+            
+            
         }
 
         void ICollideableObject.SetBackPosition()
@@ -116,6 +122,7 @@ namespace ProjectSnake
                 health = maxHealth;
             }
         }
+
         public int GetHealth()
         {
             return health;
@@ -141,8 +148,5 @@ namespace ProjectSnake
                 return false;
             }
         }
-
-       
-
     }
 }

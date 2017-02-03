@@ -29,12 +29,6 @@ namespace ProjectSnake
                             //clist.ElementAt(i).HasCollided = true;
                             //clist.ElementAt(x).HasCollided = true;
                             AfterCollision(clist.ElementAt(i), clist.ElementAt(x));
-
-                            //if (clist.ElementAt(x).HasCollided == true)
-                            //{
-                            //  clist.ElementAt(x).SetBackPosition();
-                            //  clist.ElementAt(x).HasCollided = false;
-                            //}
                         }
                     }
                 }
@@ -43,13 +37,15 @@ namespace ProjectSnake
 
         public static void AfterCollision(ICollideableObject x, ICollideableObject y)
         {
-            if(x.IsDestructable || y.IsDestructable)
+            var clist = ListHandler.GetInstance().GetAllCollideables();
+
+            if (x.IsDestructable || y.IsDestructable)
             {
-                if(x.IsDestructable)
+                if (x.IsDestructable)
                 {
                     RemoveObject(x);
                 }
-                if(y.IsDestructable)
+                if (y.IsDestructable)
                 {
                     RemoveObject(y);
                 }
@@ -59,13 +55,13 @@ namespace ProjectSnake
                     y.SetBackPosition();
                 }
             }
-            else if(x.IsObtainable || y.IsObtainable)
+            else if (x.IsObtainable || y.IsObtainable)
             {
-                if(x.IsObtainable)
+                if (x.IsObtainable)
                 {
 
                 }
-                if(y.IsObtainable)
+                if (y.IsObtainable)
                 {
 
                 }
@@ -107,21 +103,30 @@ namespace ProjectSnake
                     y.SetBackPosition();
                 }
             }
-            else if (x.IsKillable && y.IsKillable)
+            else if (x.IsKillable || y.IsKillable)
             {
                 if (x.IsKillable)
                 {
+                    x.SetBackPosition();
+                    y.SetBackPosition();
 
+                    if (y.IsKillable)
+                    {
+
+                    }
                 }
                 if (y.IsKillable)
                 {
-
-                }
-                else
-                {
                     x.SetBackPosition();
                     y.SetBackPosition();
+
+                    if (x.IsKillable)
+                    {
+                        x.SetBackPosition();
+                        y.SetBackPosition();
+                    }
                 }
+
             }
         }
 
@@ -133,9 +138,17 @@ namespace ProjectSnake
             }
         }
 
-        public static void ObtainObject(ICollideableObject co)
+        public static void ObtainObject(ICollideableObject obj1, ICollideableObject obj2)
         {
+            if(obj1.IsObtainable)
+            {
+                obj2.GiveHP();
+                obj1.GiveHP();
+            }
+            else if(obj2.IsObtainable)
+            {
 
+            }
         }
 
         public static void MoveObject(ICollideableObject co)

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace ProjectSnake
 {
-    //Potion object in world. It isn't doing much at the moment...
+    //Potion object in world.
     public class Potion : ICollideableObject
     {
-        public int posX;
-        public int posY;
-        public int prevPosX;
-        public int prevPosY;
+        private int posX;
+        private int posY;
+        private int prevPosX;
+        private int prevPosY;
         private int giveHP = 50;
         private bool HasCollided;
+        private bool isObtainAble = true;
 
         int IHasPosition.posX
         {
@@ -63,7 +64,7 @@ namespace ProjectSnake
 
         bool ICollideable.IsObtainable
         {
-            get { return true; }
+            get { return isObtainAble; }
         }
 
         bool ICollideable.IsPassable
@@ -81,15 +82,23 @@ namespace ProjectSnake
             get { return 0; }
         }
 
-        int IHasProperties.giveHP
+        int IHasProperties.givenHP
         {
             get { return 20; }
         }
+
+       
 
         void ICollideableObject.SetBackPosition()
         {
 
         }
+        void ICollideableObject.GiveHP(ICollideableObject obj)
+        {
+            if (isObtainAble)
+            {
 
+            }
+        }
     }
 }

@@ -81,7 +81,7 @@ namespace ProjectSnake
             get { return 50; }
         }
 
-        int IHasProperties.giveHP
+        int IHasProperties.givenHP
         {
             get { return 0; }
         }

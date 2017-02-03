@@ -9,7 +9,7 @@ namespace ProjectSnake
     public interface IHasProperties
     {
         float expModifier { get; }
-        int giveHP { get; }
+        int givenHP { get; }
         
     }
 }
