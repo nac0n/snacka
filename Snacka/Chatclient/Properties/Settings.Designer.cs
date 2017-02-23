@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Snacka.Properties
+namespace Chatclient.Properties
 {
 
 
