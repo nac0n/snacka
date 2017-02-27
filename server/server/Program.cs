@@ -40,8 +40,8 @@ namespace server
                 listener.Listen(10);
 
                 // Start listening for connections.  
-                while (true)
-                {
+                //while (true)
+                //{
                     Console.WriteLine("Waiting for a connection...");
                     // Program is suspended while waiting for an incoming connection.  
                     Socket handler = listener.Accept();
@@ -68,7 +68,7 @@ namespace server
                     handler.Send(msg);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
-                }
+                //}
 
             }
             catch (Exception e)
