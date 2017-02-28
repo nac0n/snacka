@@ -1,18 +1,12 @@
-﻿/* Källa: Microsoft, Synchronous Server Socket Example
-   https://msdn.microsoft.com/en-us/library/6y0e13d3%28v=vs.110%29.aspx
- */
-
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace server
+namespace ServerSnacka
 {
-
-    public class SynchronousSocketListener
+    public class Server
     {
-
         // Incoming data from the client.  
         public static string data = null;
 
@@ -45,7 +39,7 @@ namespace server
                     Console.WriteLine("Waiting for a connection...");
                     // Program is suspended while waiting for an incoming connection.  
                     Socket handler = listener.Accept();
-                    data = null;               
+                    data = null;
 
                     // An incoming connection needs to be processed.  
                     while (true)

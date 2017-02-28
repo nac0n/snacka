@@ -42,9 +42,10 @@ namespace client
 
                         Console.WriteLine("Socket connected to {0}",
                             sender.RemoteEndPoint.ToString());
-
+                        string tempmsg = Console.ReadLine(); 
                         // Encode the data string into a byte array.  
-                        byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
+                        byte[] msg =  Encoding.ASCII.GetBytes(tempmsg + "<EOF>");
+
 
                         // Send the data through the socket.  
                         int bytesSent = sender.Send(msg);

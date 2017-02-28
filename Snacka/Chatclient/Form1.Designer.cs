@@ -92,7 +92,7 @@
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "IP";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            //this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox2
             // 
@@ -112,7 +112,7 @@
             this.label2.Size = new System.Drawing.Size(26, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Port";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            //this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // textBox3
             // 
@@ -130,7 +130,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(131, 20);
             this.textBox4.TabIndex = 8;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged_1);
+            //this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged_1);
             // 
             // label3
             // 
@@ -141,7 +141,7 @@
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Name";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            //this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // button2
             // 
@@ -152,6 +152,7 @@
             this.button2.TabIndex = 10;
             this.button2.Text = "Connect";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
