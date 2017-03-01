@@ -9,7 +9,7 @@ namespace Chatclient
 {
     public partial class Form1 : Form
     {
-        //Henrik
+
         Socket socket;
 
         public Form1()
@@ -28,7 +28,7 @@ namespace Chatclient
         {
             //User's typebox
 
-            Console.Write("User types");
+            Console.Write("User types ");
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,13 +39,12 @@ namespace Chatclient
         private void button1_Click(object sender, EventArgs e)
         {
             //Send button
-            //Henrik
+        
             if (socket != null)
             {
-                //Henrik
                 if (socket.Connected == true)
                 {
-                    Console.WriteLine("Sent Message!");
+                    
                     string sentMsg = textBox1.Text;
                     Console.WriteLine(sentMsg);
                     // Encode the data string into a byte array.  
@@ -54,6 +53,7 @@ namespace Chatclient
 
                     // Send the data through the socket.  
                     int bytesSent = socket.Send(msg);
+                    Console.WriteLine("Sent Message!");
 
                     // Receive the response from the remote device.  
                     int bytesRec = socket.Receive(bytes);
@@ -63,13 +63,15 @@ namespace Chatclient
                     listBox1.Items.Add(str);
                     textBox1.Text = "";
                 }
-
-                //Henrik
+                
                 else
                 {
-                    //test
                     Console.WriteLine("Socket isn't connected");
                 }
+            }
+            else
+            {
+                Console.WriteLine("There exists no Socket to connect to... Try connecting to a socket first.");
             }
             
         }
@@ -77,10 +79,9 @@ namespace Chatclient
         private void button2_Click(object sender, EventArgs e)
         {
             //Connect button
-            //Henrik
+        
             if (socket != null)
             {
-                //Henrik
                 if (socket.Connected == false)
                 {
                     IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
@@ -89,8 +90,7 @@ namespace Chatclient
 
                     socket.Connect(remoteEP);
                 }
-
-                //Henrik
+                
                 else
                 {
                     // Release the socket.  
@@ -98,15 +98,12 @@ namespace Chatclient
                     socket.Close();
                 }
             }
-
-            //Henrik
+        
             else
             {
-                //Henrik
                 socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
                 
-                //Henrik
                 if (socket.Connected == false)
                 {
                     IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
@@ -115,8 +112,7 @@ namespace Chatclient
 
                     socket.Connect(remoteEP);
                 }
-
-                //Henrik
+                
                 else
                 {
                     // Release the socket.  

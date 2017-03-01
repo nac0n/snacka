@@ -32,15 +32,15 @@ namespace ServerSnacka
             {
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
+                //Flyttat upp denna--v
+                Socket handler = listener.Accept();
 
                 // Start listening for connections.  
                 while (true)
                 {
                     Console.WriteLine("Waiting for a connection...");
                     // Program is suspended while waiting for an incoming connection.  
-                    Socket handler = listener.Accept();
                     data = null;
-
                     // An incoming connection needs to be processed.  
                     while (true)
                     {
@@ -60,8 +60,8 @@ namespace ServerSnacka
                     byte[] msg = Encoding.ASCII.GetBytes(data);
 
                     handler.Send(msg);
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
+                    //handler.Shutdown(SocketShutdown.Both);
+                    //handler.Close();
                 }
 
             }
