@@ -39,29 +39,37 @@ namespace Chatclient
         private void button1_Click(object sender, EventArgs e)
         {
             //Send button
-        
+
+            string userName = textBox4.Text;
+
+            if (textBox4.Text == "")
+            {
+                userName = "Anonym";
+            }
+
             if (socket != null)
             {
                 if (socket.Connected == true)
                 {
                     
                     string sentMsg = textBox1.Text;
-                    Console.WriteLine(sentMsg);
-                    // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.UTF8.GetBytes(sentMsg + "<EOF>");
-                    byte[] bytes = new byte[1024];
+                        Console.WriteLine(sentMsg);
+                        // Encode the data string into a byte array.  
+                        byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
+                        byte[] bytes = new byte[1024];
 
-                    // Send the data through the socket.  
-                    int bytesSent = socket.Send(msg);
-                    Console.WriteLine("Sent Message!");
+                        // Send the data through the socket.  
+                        int bytesSent = socket.Send(msg);
+                        Console.WriteLine("Sent Message!");
 
-                    // Receive the response from the remote device.  
-                    int bytesRec = socket.Receive(bytes);
-                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Echoed test = {0}", str);
+                        // Receive the response from the remote device.  
+                        int bytesRec = socket.Receive(bytes);
+                        string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                        Console.WriteLine("Echoed test = {0}", str);
 
-                    listBox1.Items.Add(str);
-                    textBox1.Text = "";
+                        listBox1.Items.Add(str);
+                        textBox1.Text = "";
+                    
                 }
                 
                 else
@@ -79,7 +87,7 @@ namespace Chatclient
         private void button2_Click(object sender, EventArgs e)
         {
             //Connect button
-        
+            
             if (socket != null)
             {
                 if (socket.Connected == false)
@@ -123,5 +131,9 @@ namespace Chatclient
            
         }
 
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
