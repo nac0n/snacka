@@ -98,7 +98,7 @@ namespace Chatclient
                     socket.Close();
                 }
             }
-        
+
             else
             {
                 socket = new Socket(AddressFamily.InterNetwork,

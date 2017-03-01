@@ -32,7 +32,7 @@ namespace ServerSnacka
             {
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
-                //Flyttat upp denna--v
+
                 Socket handler = listener.Accept();
 
                 // Start listening for connections.  
