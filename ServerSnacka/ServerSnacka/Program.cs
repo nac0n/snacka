@@ -36,11 +36,12 @@ namespace ServerSnacka
                 Console.WriteLine("Waiting for connection...");
 
                 Socket handler = listener.Accept();
+                Console.WriteLine("You are successfully connected");
+               
 
                 // Start listening for connections.  
                 while (true)
                 {
-                    Console.WriteLine("You are successfully connected");
                     // Program is suspended while waiting for an incoming connection.  
                     data = null;
                     // An incoming connection needs to be processed.  

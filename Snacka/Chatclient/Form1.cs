@@ -89,8 +89,9 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
+                    
                 }
-                
+
                 else
                 {
                     // Release the socket.  
@@ -103,7 +104,7 @@ namespace Chatclient
             {
                 socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-                
+
                 if (socket.Connected == false)
                 {
                     IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
@@ -111,8 +112,11 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
+                    listBox1.Items.Add("You are now connected");
+
+
                 }
-                
+
                 else
                 {
                     // Release the socket.  
