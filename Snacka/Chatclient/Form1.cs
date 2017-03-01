@@ -42,7 +42,7 @@ namespace Chatclient
 
             string userName = textBox4.Text;
 
-            if (textBox4.Text == "")
+            if (textBox4.Text == null)
             {
                 userName = "Anonym";
             }
@@ -97,20 +97,13 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
-                    listBox1.Items.Add("You are successfully connected");
-                    button2.Text = "Disconnect";
-
-
                 }
-
+                
                 else
                 {
                     // Release the socket.  
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-                    listBox1.Items.Add("You are successfully disconnected");
-                    button2.Text = "Connect";
-
                 }
             }
         
@@ -118,7 +111,7 @@ namespace Chatclient
             {
                 socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-
+                
                 if (socket.Connected == false)
                 {
                     IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
@@ -126,40 +119,21 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
-                    listBox1.Items.Add("You are successfully connected");
-                    button2.Text = "Disconnect";
-
-
                 }
-
+                
                 else
                 {
                     // Release the socket.  
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-                    listBox1.Items.Add("You are successfully disconnected");
-                    button2.Text = "Connect";
-
                 }
             }
            
         }
 
-<<<<<<< HEAD
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
-            {
-                if (!textBox1.AcceptsReturn)
-                {
-                    button1.PerformClick();
-                }
-            }
-=======
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
             
->>>>>>> andreas-dev-branch
         }
     }
 }
