@@ -33,12 +33,14 @@ namespace ServerSnacka
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
                 //Flyttat upp denna--v
+                Console.WriteLine("Waiting for connection...");
+
                 Socket handler = listener.Accept();
 
                 // Start listening for connections.  
                 while (true)
                 {
-                    Console.WriteLine("Waiting for a connection...");
+                    Console.WriteLine("You are successfully connected");
                     // Program is suspended while waiting for an incoming connection.  
                     data = null;
                     // An incoming connection needs to be processed.  
