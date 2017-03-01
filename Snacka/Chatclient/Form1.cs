@@ -48,7 +48,7 @@ namespace Chatclient
                     string sentMsg = textBox1.Text;
                     Console.WriteLine(sentMsg);
                     // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes(sentMsg + "<EOF>");
+                    byte[] msg = Encoding.UTF8.GetBytes(sentMsg + "<EOF>");
                     byte[] bytes = new byte[1024];
 
                     // Send the data through the socket.  
@@ -57,7 +57,7 @@ namespace Chatclient
 
                     // Receive the response from the remote device.  
                     int bytesRec = socket.Receive(bytes);
-                    string str = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
                     Console.WriteLine("Echoed test = {0}", str);
 
                     listBox1.Items.Add(str);
