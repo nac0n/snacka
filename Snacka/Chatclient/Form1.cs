@@ -89,7 +89,10 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
-                    
+                    listBox1.Items.Add("You are successfully connected");
+                    button2.Text = "Disconnect";
+
+
                 }
 
                 else
@@ -97,6 +100,9 @@ namespace Chatclient
                     // Release the socket.  
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
+                    listBox1.Items.Add("You are successfully disconnected");
+                    button2.Text = "Connect";
+
                 }
             }
         
@@ -112,7 +118,8 @@ namespace Chatclient
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     socket.Connect(remoteEP);
-                    listBox1.Items.Add("You are now connected");
+                    listBox1.Items.Add("You are successfully connected");
+                    button2.Text = "Disconnect";
 
 
                 }
@@ -122,6 +129,9 @@ namespace Chatclient
                     // Release the socket.  
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
+                    listBox1.Items.Add("You are successfully disconnected");
+                    button2.Text = "Connect";
+
                 }
             }
            
