@@ -39,6 +39,7 @@ namespace ServerSnacka
                 Console.WriteLine("You are successfully connected");
                
 
+
                 // Start listening for connections.  
                 while (true)
                 {
@@ -50,7 +51,7 @@ namespace ServerSnacka
                         bytes = new byte[1024];
                         int bytesRec = handler.Receive(bytes);
                         data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
+                        if (data.IndexOf("") > -1)
                         {
                             break;
                         }
@@ -77,7 +78,6 @@ namespace ServerSnacka
             Console.Read();
 
         }
-
 
         public static int Main(String[] args)
         {
