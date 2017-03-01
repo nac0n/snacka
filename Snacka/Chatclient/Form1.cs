@@ -96,6 +96,7 @@ namespace Chatclient
                     // Release the socket.  
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
+                    socket = null;
                 }
             }
 
