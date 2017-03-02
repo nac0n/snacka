@@ -53,6 +53,9 @@ namespace Chatclient
                 {
                     
                     string sentMsg = textBox1.Text;
+
+                    if (sentMsg != "")
+                    {
                         Console.WriteLine(sentMsg);
                         // Encode the data string into a byte array.  
                         byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
@@ -69,6 +72,7 @@ namespace Chatclient
 
                         listBox1.Items.Add(str);
                         textBox1.Text = "";
+                    }
                     
                 }
                 
