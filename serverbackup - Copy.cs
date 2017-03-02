@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -10,7 +10,7 @@ namespace ServerSnacka
     {
         // Incoming data from the client.  
         public static string data = null;
-
+        
         public static void ThreadWork(Socket handler)
         {
             // Data buffer for incoming data.  
@@ -35,14 +35,14 @@ namespace ServerSnacka
                         }
                         catch (SocketException se)
                         {
-
+                            
                             Console.WriteLine("No request from user");
                             socket.Shutdown(SocketShutdown.Both);
                             socket.Close();
                             Thread.CurrentThread.Abort();
                             break;
                         }
-
+                   
                         data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
                         if (data.IndexOf("<EOF>") > -1)
                         {
@@ -89,16 +89,16 @@ namespace ServerSnacka
                         socket.Close();
                         Thread.CurrentThread.Abort();
                     }
-                    catch (ObjectDisposedException ode)
+                    catch(ObjectDisposedException ode)
                     {
                         Console.WriteLine("Socket already closed...");
                         Thread.CurrentThread.Abort();
                     }
-
+                   
                     break;
                 }
             }
-
+            
         }
 
         public static void StartListening()
@@ -121,7 +121,7 @@ namespace ServerSnacka
             try
             {
                 listener.Bind(localEndPoint);
-
+                    
                 listener.Listen(10);
 
                 // Program is suspended while waiting for an incoming connection.  

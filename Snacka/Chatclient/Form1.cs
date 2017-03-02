@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Chatclient
 {
     public partial class Form1 : Form
     {
-
-        Socket socket;
+        protected Thread SendThread;
+        protected Thread ConnectThread;
+        protected Socket socket;
 
         public Form1()
         {
@@ -36,92 +37,84 @@ namespace Chatclient
 
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
             //Send button
-        
-            if (socket != null)
-            {
-                if (socket.Connected == true)
-                {
-                    
-                    string sentMsg = textBox1.Text;
-                    Console.WriteLine(sentMsg);
-                    // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.UTF8.GetBytes(sentMsg + "<EOF>");
-                    byte[] bytes = new byte[1024];
-
-                    // Send the data through the socket.  
-                    int bytesSent = socket.Send(msg);
-                    Console.WriteLine("Sent Message!");
-
-                    // Receive the response from the remote device.  
-                    int bytesRec = socket.Receive(bytes);
-                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Echoed test = {0}", str);
-
-                    listBox1.Items.Add(str);
-                    textBox1.Text = "";
-                }
-                
-                else
-                {
-                    Console.WriteLine("Socket isn't connected");
-                }
-            }
-            else
-            {
-                Console.WriteLine("There exists no Socket to connect to... Try connecting to a socket first.");
-            }
+            SendThread = new Thread(() => SendMessage());
+            SendThread.Start();
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             //Connect button
-        
-            if (socket != null)
-            {
-                if (socket.Connected == false)
-                {
-                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+            ConnectThread = new Thread(() => ConnectionUser());
+            ConnectThread.Start();
 
-                    socket.Connect(remoteEP);
-                }
-                
-                else
-                {
-                    // Release the socket.  
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
-                    socket = null;
-                }
+        }
+
+        private void SendMessage()
+        {
+
+            string sentMsg = textBox1.Text;
+            Console.WriteLine(sentMsg);
+            // Encode the data string into a byte array.  
+            byte[] msg = Encoding.UTF8.GetBytes(sentMsg + "<EOF>");
+            byte[] bytes = new byte[1024];
+
+            // Send the data through the socket.  
+            int bytesSent = socket.Send(msg);
+            Console.WriteLine("Sent Message!");
+
+            // Receive the response from the remote device.  
+            int bytesRec = socket.Receive(bytes);
+            string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            Console.WriteLine("Echoed test = {0}", str);
+
+            listBox1.Items.Add(str);
+            textBox1.Text = "";
+
+            // Send message 
+            // get response
+            // Disconnect socket
+            // abort thread
+        }
+
+        private void ConnectionUser()
+        {
+            if (!SocketConnected())
+            {
+                IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                socket.Poll(5000, SelectMode.SelectWrite);
+                socket.Connect(remoteEP);
             }
 
             else
             {
-                socket = new Socket(AddressFamily.InterNetwork,
-                    SocketType.Stream, ProtocolType.Tcp);
+                // Release the socket.  
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Disconnect(false);
+                socket.Close();
                 
-                if (socket.Connected == false)
-                {
-                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-
-                    socket.Connect(remoteEP);
-                }
-                
-                else
-                {
-                    // Release the socket.  
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
-                }
+                socket = null;
             }
-           
+            // Send message 
+            // get response
+            // Disconnect socket
+            // abort thread
+        }
+
+        bool SocketConnected()
+        {
+            bool part1 = socket.Poll(1000, SelectMode.SelectRead);
+            bool part2 = (socket.Available == 0);
+            if (part1 && part2)
+                return false;
+            else
+                return true;
         }
 
     }
