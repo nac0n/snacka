@@ -66,10 +66,11 @@ namespace Chatclient
             byte[] bytes = new byte[1024];
 
             // Send the data through the socket.  
-            if(socket.Connected == true)
+            try
             {
-                try
-                { 
+                if (socket.Connected == true)
+                {
+                
                     int bytesSent = socket.Send(msg);
                     Console.WriteLine("Sent Message!");
 
@@ -84,20 +85,32 @@ namespace Chatclient
                         listBox1.Items.Add(str);
 
                     }));
+                
                 }
-                catch (SocketException se) { Console.WriteLine(se.Message); };
             }
-            
+            catch (SocketException se)
+            {
+                Console.WriteLine("Error in try method around line 70, SocketException");
+                Console.WriteLine(se.Message);
+            }
+            catch (NullReferenceException nre)
+            {
+                Console.WriteLine("Error in try method around line 70, NullreferenceException");
+                Console.WriteLine(nre.Message);
+                socket = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Stream, ProtocolType.Tcp);
+            }
+
 
             //try
             //{
             //    lock(listBox1)
             //    {
-           
-                    //listBox1.Items.Add(str);
-                    //textBox1.Text = "";
-                //}
-                
+
+            //listBox1.Items.Add(str);
+            //textBox1.Text = "";
+            //}
+
             //}
             //catch (InvalidOperationException ioe)
             //{

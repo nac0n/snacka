@@ -68,13 +68,13 @@ namespace ServerSnacka
                         {
                             Console.WriteLine("Server, Line 59, Catch ObjectDisposedException");
                             Console.WriteLine(ode.Message);
-                            Thread.CurrentThread.Abort();
+                            //Thread.CurrentThread.Abort();
                         }
                         catch (SocketException se)
                         {
                             Console.WriteLine("Server, Line 59, Catch SocketException");
                             Console.WriteLine(se.Message);
-                            Thread.CurrentThread.Abort();
+                            //Thread.CurrentThread.Abort();
                         }
 
                     }
@@ -94,12 +94,12 @@ namespace ServerSnacka
                     {
                         socket.Shutdown(SocketShutdown.Both);
                         socket.Close();
-                        Thread.CurrentThread.Abort();
+                        //Thread.CurrentThread.Abort();
                     }
                     catch (ObjectDisposedException ode)
                     {
                         Console.WriteLine("Socket already closed...");
-                        Thread.CurrentThread.Abort();
+                        //Thread.CurrentThread.Abort();
                     }
 
                     break;
