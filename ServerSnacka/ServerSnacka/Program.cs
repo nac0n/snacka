@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+//using System.Linq;
+//using System.Collections.Generic;
 
 namespace ServerSnacka
 {
@@ -10,6 +12,18 @@ namespace ServerSnacka
     {
         // Incoming data from the client.  
         public static string data = null;
+        //public static List<Thread> threads = new List<Thread>();
+        
+        public static int Main(String[] args)
+        {
+            StartListening();
+            return 0;
+        }
+
+        public static void BroadcastToAllClients()
+        {
+
+        }
 
         public static void ThreadWork(Socket handler)
         {
@@ -137,6 +151,9 @@ namespace ServerSnacka
                     Console.WriteLine("Waiting for a connection...");
                     Socket handler = listener.Accept();
                     Thread thread = new Thread(() => ThreadWork(handler));
+                    // threads.Add(new Thread(() => ThreadWork(handler)));
+                    //Thread t = threads.ElementAt<Thread>(threads.Count -1);
+                    //t.Start();
                     thread.Start();
                     Console.WriteLine("Client Connected");
                 }
@@ -151,13 +168,7 @@ namespace ServerSnacka
             Console.Read();
 
         }
-
-
-        public static int Main(String[] args)
-        {
-            StartListening();
-            return 0;
-        }
+        
     }
 
 }

@@ -24,7 +24,6 @@ namespace Chatclient
         {
             // Create a TCP/IP  socket.  
             
-            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
