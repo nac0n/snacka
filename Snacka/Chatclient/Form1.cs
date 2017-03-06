@@ -61,8 +61,15 @@ namespace Chatclient
             string sentMsg = textBox1.Text;
             Console.WriteLine(sentMsg);
             // Encode the data string into a byte array.  
-            byte[] msg = Encoding.UTF8.GetBytes(sentMsg + "<EOF>");
+            byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
             byte[] bytes = new byte[1024];
+
+            string userName = textBox4.Text;
+
+            if (textBox4.Text == null)
+            {
+                userName = "Anonym";
+            }
 
             // Send the data through the socket.  
             try
@@ -224,5 +231,9 @@ namespace Chatclient
                 return true;
         }
 
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
