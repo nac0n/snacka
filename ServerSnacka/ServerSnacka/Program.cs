@@ -50,10 +50,17 @@ namespace ServerSnacka
                         catch (SocketException se)
                         {
 
-                            Console.WriteLine("No request from user");
+                            Console.WriteLine("No response was given to user");
+                            Console.WriteLine(se.Message);
                             socket.Shutdown(SocketShutdown.Both);
                             socket.Close();
                             Thread.CurrentThread.Abort();
+                            break;
+                        }
+                        catch (ThreadAbortException tae)
+                        {
+                            Console.WriteLine("Thread Abort Exception");
+                            Console.WriteLine(tae.Message);
                             break;
                         }
 
@@ -161,6 +168,7 @@ namespace ServerSnacka
 
             catch (Exception e)
             {
+                Console.WriteLine("Error in trying to connect in line 164, Exception e");
                 Console.WriteLine(e.ToString());
             }
 

@@ -22,14 +22,12 @@ namespace Chatclient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Create a TCP/IP  socket.  
 
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //User's typebox
-
             Console.Write("User types ");
         }
 
@@ -89,6 +87,7 @@ namespace Chatclient
                     {
 
                         listBox1.Items.Add(str);
+                        //Thread.CurrentThread.Abort();
 
                     }));
 
@@ -106,27 +105,6 @@ namespace Chatclient
                 socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
             }
-
-
-            //try
-            //{
-            //    lock(listBox1)
-            //    {
-
-            //listBox1.Items.Add(str);
-            //textBox1.Text = "";
-            //}
-
-            //}
-            //catch (InvalidOperationException ioe)
-            //{
-            //    Console.WriteLine(ioe.Message);
-            //}            
-
-            // Send message 
-            // get response
-            // Disconnect socket
-            // abort thread
         }
 
         private void ConnectionUser()
@@ -149,6 +127,7 @@ namespace Chatclient
                     socket.Disconnect(false);
                     socket.Close();
                     socket = null;
+                    Thread.CurrentThread.Abort();
                 }
             }
 
