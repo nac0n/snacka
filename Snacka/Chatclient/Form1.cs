@@ -23,7 +23,7 @@ namespace Chatclient
         private void Form1_Load(object sender, EventArgs e)
         {
             // Create a TCP/IP  socket.  
-            
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace Chatclient
             //Send button
             SendThread = new Thread(() => SendMessage());
             SendThread.Start();
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -57,13 +57,6 @@ namespace Chatclient
 
         private void SendMessage()
         {
-
-            string sentMsg = textBox1.Text;
-            Console.WriteLine(sentMsg);
-            // Encode the data string into a byte array.  
-            byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
-            byte[] bytes = new byte[1024];
-
             string userName = textBox4.Text;
 
             if (textBox4.Text == null)
@@ -71,12 +64,19 @@ namespace Chatclient
                 userName = "Anonym";
             }
 
+            string sentMsg = textBox1.Text;
+            Console.WriteLine(sentMsg);
+            // Encode the data string into a byte array.  
+            byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "<EOF>");
+            byte[] bytes = new byte[1024];
+            
+
             // Send the data through the socket.  
             try
             {
                 if (socket.Connected == true)
                 {
-                
+
                     int bytesSent = socket.Send(msg);
                     Console.WriteLine("Sent Message!");
 
@@ -91,7 +91,7 @@ namespace Chatclient
                         listBox1.Items.Add(str);
 
                     }));
-                
+
                 }
             }
             catch (SocketException se)
@@ -160,7 +160,7 @@ namespace Chatclient
                     SocketType.Stream, ProtocolType.Tcp);
                 }
                 catch (Exception e) { Console.WriteLine(e.Message); };
-               
+
 
                 if (socket.Connected == false)
                 {
@@ -196,7 +196,7 @@ namespace Chatclient
             //    //socket.Poll(5000, SelectMode.SelectWrite);
             //    //socket.Connect(remoteEP);
             //}
-                
+
             //else
             //{
             //    socket = new Socket(AddressFamily.InterNetwork,
@@ -233,7 +233,7 @@ namespace Chatclient
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
