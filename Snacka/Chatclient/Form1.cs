@@ -11,7 +11,9 @@ namespace Chatclient
     {
         protected Thread SendThread;
         protected Thread ConnectThread;
-        protected Socket socket;
+        protected Socket socket = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Stream, ProtocolType.Tcp);
+
 
         public Form1()
         {
@@ -64,16 +66,43 @@ namespace Chatclient
             byte[] bytes = new byte[1024];
 
             // Send the data through the socket.  
-            int bytesSent = socket.Send(msg);
-            Console.WriteLine("Sent Message!");
+            if(socket.Connected == true)
+            {
+                try
+                { 
+                    int bytesSent = socket.Send(msg);
+                    Console.WriteLine("Sent Message!");
 
-            // Receive the response from the remote device.  
-            int bytesRec = socket.Receive(bytes);
-            string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Console.WriteLine("Echoed test = {0}", str);
+                    // Receive the response from the remote device.  
+                    int bytesRec = socket.Receive(bytes);
+                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                    Console.WriteLine("Echoed test = {0}", str);
 
-            listBox1.Items.Add(str);
-            textBox1.Text = "";
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+
+                        listBox1.Items.Add(str);
+
+                    }));
+                }
+                catch (SocketException se) { Console.WriteLine(se.Message); };
+            }
+            
+
+            //try
+            //{
+            //    lock(listBox1)
+            //    {
+           
+                    //listBox1.Items.Add(str);
+                    //textBox1.Text = "";
+                //}
+                
+            //}
+            //catch (InvalidOperationException ioe)
+            //{
+            //    Console.WriteLine(ioe.Message);
+            //}            
 
             // Send message 
             // get response
@@ -83,24 +112,90 @@ namespace Chatclient
 
         private void ConnectionUser()
         {
-            if (!SocketConnected())
+            if (socket != null)
             {
-                IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-                socket.Poll(5000, SelectMode.SelectWrite);
-                socket.Connect(remoteEP);
+                if (socket.Connected == false)
+                {
+                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                    IPAddress ipAddress = ipHostInfo.AddressList[0];
+                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+
+                    socket.Connect(remoteEP);
+                }
+
+                else
+                {
+                    // Release the socket.  
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Disconnect(false);
+                    socket.Close();
+                    socket = null;
+                }
             }
 
             else
             {
-                // Release the socket.  
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Disconnect(false);
-                socket.Close();
-                
-                socket = null;
+                try
+                {
+                    socket = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Stream, ProtocolType.Tcp);
+                }
+                catch (Exception e) { Console.WriteLine(e.Message); };
+               
+
+                if (socket.Connected == false)
+                {
+                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                    IPAddress ipAddress = ipHostInfo.AddressList[0];
+                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+
+                    socket.Connect(remoteEP);
+                }
+
+                else
+                {
+                    // Release the socket.  
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Disconnect(false);
+                    socket.Close();
+                    socket = null;
+                    Thread.CurrentThread.Abort();
+                }
             }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //if (SocketConnected())
+            //{
+            //    Console.WriteLine("Socket was connected, disconnecting now...");
+
+            //    socket.Shutdown(SocketShutdown.Both);
+            //    socket.Disconnect(false);
+            //    //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+            //    //IPAddress ipAddress = ipHostInfo.AddressList[0];
+            //    //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+            //    //socket.Poll(5000, SelectMode.SelectWrite);
+            //    //socket.Connect(remoteEP);
+            //}
+                
+            //else
+            //{
+            //    socket = new Socket(AddressFamily.InterNetwork,
+            //        SocketType.Stream, ProtocolType.Tcp);
+            //    Console.WriteLine("Socket was disconnected, connecting now...");
+            //    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+            //    IPAddress ipAddress = ipHostInfo.AddressList[0];
+            //    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+            //    socket.Poll(5000, SelectMode.SelectWrite);
+            //    socket.Connect(remoteEP);
+
+            //    // Release the socket.  
+            //    //socket.Shutdown(SocketShutdown.Both);
+            //    //socket.Disconnect(false);
+            //    //socket.Close();
+
+            //    //socket = null;
+            //}
             // Send message 
             // get response
             // Disconnect socket

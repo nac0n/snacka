@@ -66,7 +66,14 @@ namespace ServerSnacka
                         }
                         catch (ObjectDisposedException ode)
                         {
-                            Console.WriteLine("couldn't send response as the socket is disposed...");
+                            Console.WriteLine("Server, Line 59, Catch ObjectDisposedException");
+                            Console.WriteLine(ode.Message);
+                            Thread.CurrentThread.Abort();
+                        }
+                        catch (SocketException se)
+                        {
+                            Console.WriteLine("Server, Line 59, Catch SocketException");
+                            Console.WriteLine(se.Message);
                             Thread.CurrentThread.Abort();
                         }
 
