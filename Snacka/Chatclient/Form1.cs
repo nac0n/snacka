@@ -154,5 +154,13 @@ namespace Chatclient
         {
             
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == 13)
+            {
+                button1.PerformClick();
+            }
+        }
     }
 }
