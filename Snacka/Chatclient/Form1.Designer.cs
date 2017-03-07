@@ -43,12 +43,11 @@ namespace Chatclient
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-
             // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(13, 617);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(710, 69);
@@ -60,7 +59,7 @@ namespace Chatclient
             this.button1.AccessibleDescription = "btnSend";
             this.button1.AccessibleName = "btnSend";
             this.button1.Location = new System.Drawing.Point(741, 617);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(237, 68);
             this.button1.TabIndex = 1;
@@ -73,7 +72,7 @@ namespace Chatclient
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 24;
             this.listBox1.Location = new System.Drawing.Point(13, 68);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(4);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(710, 532);
             this.listBox1.TabIndex = 2;
@@ -84,7 +83,7 @@ namespace Chatclient
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 24;
             this.listBox2.Location = new System.Drawing.Point(741, 68);
-            this.listBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBox2.Margin = new System.Windows.Forms.Padding(4);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(237, 532);
             this.listBox2.TabIndex = 3;
@@ -101,9 +100,8 @@ namespace Chatclient
             // 
             // textBox2
             // 
-
             this.textBox2.Location = new System.Drawing.Point(48, 20);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(164, 29);
             this.textBox2.TabIndex = 5;
@@ -122,7 +120,7 @@ namespace Chatclient
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(299, 20);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(55, 29);
             this.textBox3.TabIndex = 7;
@@ -130,14 +128,12 @@ namespace Chatclient
             // 
             // textBox4
             // 
-
             this.textBox4.Location = new System.Drawing.Point(486, 20);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(237, 29);
             this.textBox4.TabIndex = 8;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
-
             // 
             // label3
             // 
@@ -152,7 +148,7 @@ namespace Chatclient
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(741, 20);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(237, 42);
             this.button2.TabIndex = 10;
@@ -165,6 +161,7 @@ namespace Chatclient
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 698);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox4);
@@ -173,10 +170,9 @@ namespace Chatclient
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
