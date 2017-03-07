@@ -54,7 +54,15 @@ namespace ServerSnacka
                             Console.WriteLine(se.Message);
                             socket.Shutdown(SocketShutdown.Both);
                             socket.Close();
-                            Thread.CurrentThread.Abort();
+                            try
+                            {
+                                Thread.CurrentThread.Abort();
+                            }
+                            catch (ThreadAbortException tae)
+                            {
+                                Console.WriteLine("Can't abort thread");
+                                Console.WriteLine(tae.Message);
+                            }
                             break;
                         }
                         catch (ThreadAbortException tae)
