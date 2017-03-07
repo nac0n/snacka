@@ -146,6 +146,16 @@ namespace Chatclient
                     button1.PerformClick();
                 }
             }
+           
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == (Keys.Shift | Keys.Enter))
+            {
+                textBox1.Text = textBox1.Text + Environment.NewLine;
+                Console.WriteLine("shift+enter");
+            }
         }
     }
 }
