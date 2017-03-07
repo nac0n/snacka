@@ -149,6 +149,9 @@ namespace Chatclient
            
         }
 
+        //Funktion för att kunna trycka shift+enter för att göra ny rad i meddelande,
+        //Den skriver ut shift+enter när man trycker på knapparna men det blir ingen
+        //ny rad utan meddelandet skickas
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == (Keys.Shift | Keys.Enter))
