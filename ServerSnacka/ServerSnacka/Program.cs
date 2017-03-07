@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using System.Collections.Generic;
 //using System.Linq;
 //using System.Collections.Generic;
 
@@ -12,6 +13,7 @@ namespace ServerSnacka
     {
         // Incoming data from the client.  
         public static string data = null;
+        public static List<Socket>_clientSocketsList = new List<Socket>();
         //public static List<Thread> threads = new List<Thread>();
         
         public static int Main(String[] args)
@@ -20,9 +22,12 @@ namespace ServerSnacka
             return 0;
         }
 
-        public static void BroadcastToAllClients()
+        public static void SendToAllClients(byte[] msg)
         {
-
+            foreach(Socket client in _clientSocketsList)
+            {
+                client.Send(msg);
+            }
         }
 
         public static void ThreadWork(Socket handler)
@@ -30,6 +35,7 @@ namespace ServerSnacka
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             Socket socket = handler;
+            _clientSocketsList.Add(socket);
 
             while (true)
             {
@@ -45,11 +51,12 @@ namespace ServerSnacka
 
                         try
                         {
+                            //Tråden stannar här och väntar på att klient ska skriva någonting.
                             bytesRec = socket.Receive(bytes);
                         }
+
                         catch (SocketException se)
                         {
-
                             Console.WriteLine("No response was given to user");
                             Console.WriteLine(se.Message);
                             socket.Shutdown(SocketShutdown.Both);
@@ -90,7 +97,7 @@ namespace ServerSnacka
                             byte[] msg = Encoding.UTF8.GetBytes(data);
                             data = "";
                             Console.WriteLine("Trying to respond with message to client!");
-                            socket.Send(msg);
+                            SendToAllClients(msg);
                             Console.WriteLine("SENT!");
                         }
                         catch (ObjectDisposedException ode)
@@ -157,7 +164,6 @@ namespace ServerSnacka
             try
             {
                 listener.Bind(localEndPoint);
-
                 listener.Listen(10);
 
                 // Program is suspended while waiting for an incoming connection.  

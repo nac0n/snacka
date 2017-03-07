@@ -117,7 +117,7 @@ namespace Chatclient
                     IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
                     IPAddress ipAddress = ipHostInfo.AddressList[0];
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-
+                    socket.Connect
                     try
                     {
                         socket.Connect(remoteEP);
