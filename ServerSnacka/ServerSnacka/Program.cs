@@ -168,7 +168,7 @@ namespace ServerSnacka
 
             catch (Exception e)
             {
-                Console.WriteLine("Error in trying to connect in line 164, Exception e");
+                Console.WriteLine("Error in trying to connect or create thread in line 164, Exception e");
                 Console.WriteLine(e.ToString());
             }
 
