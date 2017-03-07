@@ -12,7 +12,7 @@ namespace ServerSnacka
     public class Server
     {
         // Incoming data from the client.  
-        public static string data = null;
+        public static string data = "";
         public static List<Socket>_clientSocketsList = new List<Socket>();
         //public static List<Thread> threads = new List<Thread>();
         
@@ -22,26 +22,26 @@ namespace ServerSnacka
             return 0;
         }
 
-        public static void SendToAllClients(byte[] msg)
-        {
-            foreach(Socket client in _clientSocketsList)
-            {
-                client.Send(msg);
-            }
-        }
+        //public static void SendToAllClients(byte[] msg)
+        //{
+        //    foreach(Socket client in _clientSocketsList)
+        //    {
+        //        client.Send(msg);
+        //    }
+        //}
 
         public static void ThreadWork(Socket handler)
         {
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             Socket socket = handler;
-            _clientSocketsList.Add(socket);
+           //_clientSocketsList.Add(socket);
 
             while (true)
             {
-                if (handler.Connected == true)
+                if (socket.Connected == true)
                 {
-                    data = null;
+                    data = "";
 
                     // An incoming connection needs to be processed.  
                     while (true)
@@ -61,6 +61,7 @@ namespace ServerSnacka
                             Console.WriteLine(se.Message);
                             socket.Shutdown(SocketShutdown.Both);
                             socket.Close();
+
                             try
                             {
                                 Thread.CurrentThread.Abort();
@@ -72,10 +73,10 @@ namespace ServerSnacka
                             }
                             break;
                         }
-                        catch (ThreadAbortException tae)
+                        catch (Exception e)
                         {
-                            Console.WriteLine("Thread Abort Exception");
-                            Console.WriteLine(tae.Message);
+                            Console.WriteLine("Exception e in row 78, Recieving connection failed");
+                            Console.WriteLine(e.Message);
                             break;
                         }
 
@@ -90,25 +91,37 @@ namespace ServerSnacka
                     Console.WriteLine("Text received : {0}", data);
 
                     // Echo the data back to the client.  
-                    if (data != null)
+                    if (data != "")
                     {
                         try
                         {
                             byte[] msg = Encoding.UTF8.GetBytes(data);
                             data = "";
                             Console.WriteLine("Trying to respond with message to client!");
-                            SendToAllClients(msg);
+                            socket.Send(msg);
+                            //SendToAllClients(msg);
                             Console.WriteLine("SENT!");
+                            //socket.Close();
+                            //try
+                            //{
+                            //    Thread.CurrentThread.Abort();
+                            //}
+                            //catch(ThreadAbortException tae)
+                            //{
+                            //    Console.WriteLine("Couldn't Abort Thread, Row 110");
+                            //    Console.WriteLine(tae.Message);
+                            //}
+                            
                         }
                         catch (ObjectDisposedException ode)
                         {
-                            Console.WriteLine("Server, Line 59, Catch ObjectDisposedException");
+                            Console.WriteLine("Server, Line 118, Catch ObjectDisposedException");
                             Console.WriteLine(ode.Message);
                             //Thread.CurrentThread.Abort();
                         }
                         catch (SocketException se)
                         {
-                            Console.WriteLine("Server, Line 59, Catch SocketException");
+                            Console.WriteLine("Server, Line 124, Catch SocketException");
                             Console.WriteLine(se.Message);
                             //Thread.CurrentThread.Abort();
                         }
@@ -116,7 +129,7 @@ namespace ServerSnacka
                     }
                     else
                     {
-                        data = "Empty String";
+                        Console.WriteLine("Data was empty, Line 132");
                     }
 
                     //handler.Shutdown(SocketShutdown.Both);
@@ -128,17 +141,35 @@ namespace ServerSnacka
                 {
                     try
                     {
-                        socket.Shutdown(SocketShutdown.Both);
-                        socket.Close();
-                        //Thread.CurrentThread.Abort();
+                        socket = handler;
+                        //socket.Shutdown(SocketShutdown.Both);
+                        //socket.Close();
+                        //try
+                        //{
+                        //    Thread.CurrentThread.Abort();
+                        //}
+                        //catch(ThreadAbortException tae)
+                        //{
+                        //    Console.WriteLine("Couldn't Abort Thread, Row 110");
+                        //    Console.WriteLine(tae.Message);
+                        //}
                     }
                     catch (ObjectDisposedException ode)
                     {
                         Console.WriteLine("Socket already closed...");
-                        //Thread.CurrentThread.Abort();
+                        //ThreadWork(socket);
+                        //break;
+                        //try
+                        //{
+                        //    Thread.CurrentThread.Abort();
+                        //}
+                        //catch(ThreadAbortException tae)
+                        //{
+                        //    Console.WriteLine("Couldn't Abort Thread, Row 110");
+                        //    Console.WriteLine(tae.Message);
+                        //}
                     }
 
-                    break;
                 }
             }
 

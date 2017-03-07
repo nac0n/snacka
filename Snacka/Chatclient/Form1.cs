@@ -14,7 +14,10 @@ namespace Chatclient
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
         String userName;
-        
+        static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+        static IPAddress ipAddress = ipHostInfo.AddressList[0];
+        static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+
         public Form1()
         {
             InitializeComponent();
@@ -75,7 +78,8 @@ namespace Chatclient
             {
                 if (socket.Connected == true)
                 {
-
+                    //socket = new Socket(AddressFamily.InterNetwork,
+                    //    SocketType.Stream, ProtocolType.Tcp);
                     int bytesSent = socket.Send(msg);
                     Console.WriteLine("Sent Message!");
 
@@ -86,25 +90,22 @@ namespace Chatclient
 
                     this.Invoke(new MethodInvoker(delegate ()
                     {
-
                         listBox1.Items.Add(str);
-                        //Thread.CurrentThread.Abort();
-
                     }));
 
                 }
             }
             catch (SocketException se)
             {
-                Console.WriteLine("Error in try method around line 70, SocketException");
+                Console.WriteLine("Error in try method around line 103, SocketException");
                 Console.WriteLine(se.Message);
             }
             catch (NullReferenceException nre)
             {
-                Console.WriteLine("Error in try method around line 70, NullreferenceException");
+                Console.WriteLine("Error in try method around line 108, NullreferenceException");
                 Console.WriteLine(nre.Message);
-                socket = new Socket(AddressFamily.InterNetwork,
-                    SocketType.Stream, ProtocolType.Tcp);
+                //socket = new Socket(AddressFamily.InterNetwork,
+                //    SocketType.Stream, ProtocolType.Tcp);
             }
         }
 
@@ -114,10 +115,7 @@ namespace Chatclient
             {
                 if (socket.Connected == false)
                 {
-                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-                    socket.Connect
+                    
                     try
                     {
                         socket.Connect(remoteEP);
@@ -131,29 +129,29 @@ namespace Chatclient
                 else
                 {
                     // Release the socket.  
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Disconnect(false);
-                    socket.Close();
+                    //socket.Shutdown(SocketShutdown.Both);
+                    //socket.Disconnect(false);
+                    //socket.Close();
                     socket = null;
-                    Thread.CurrentThread.Abort();
+                    //Thread.CurrentThread.Abort();
                 }
             }
 
             else
             {
-                try
-                {
+                //try
+                //{
                     socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-                }
-                catch (Exception e) { Console.WriteLine(e.Message); };
+                //}
+                //catch (Exception e) { Console.WriteLine(e.Message); };
 
 
                 if (socket.Connected == false)
                 {
-                    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                    //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                    //IPAddress ipAddress = ipHostInfo.AddressList[0];
+                    //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                     try
                     {
@@ -170,11 +168,11 @@ namespace Chatclient
                 else
                 {
                     // Release the socket.  
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Disconnect(false);
-                    socket.Close();
-                    socket = null;
-                    Thread.CurrentThread.Abort();
+                    //socket.Shutdown(SocketShutdown.Both);
+                    //socket.Disconnect(false);
+                    //socket.Close();
+                    //socket = null;
+                    //Thread.CurrentThread.Abort();
                 }
             }
 
