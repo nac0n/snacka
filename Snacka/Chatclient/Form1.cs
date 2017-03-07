@@ -13,8 +13,8 @@ namespace Chatclient
         protected Thread ConnectThread;
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-
-
+        String userName;
+        
         public Form1()
         {
             InitializeComponent();
@@ -29,11 +29,13 @@ namespace Chatclient
         {
             //User's typebox
             Console.Write("User types ");
+            listBox1.Text = "User";
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
 
@@ -42,7 +44,6 @@ namespace Chatclient
             //Send button
             SendThread = new Thread(() => SendMessage());
             SendThread.Start();
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -55,9 +56,9 @@ namespace Chatclient
 
         private void SendMessage()
         {
-            string userName = textBox4.Text;
+            userName = textBox4.Text;
 
-            if (textBox4.Text == null)
+            if (textBox4.Text == "")
             {
                 userName = "Anonym";
             }
@@ -117,7 +118,14 @@ namespace Chatclient
                     IPAddress ipAddress = ipHostInfo.AddressList[0];
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
-                    socket.Connect(remoteEP);
+                    try
+                    {
+                        socket.Connect(remoteEP);
+                    }
+                    catch (SocketException)
+                    {
+                        Console.WriteLine("No server found");
+                    }
                 }
 
                 else
@@ -147,7 +155,16 @@ namespace Chatclient
                     IPAddress ipAddress = ipHostInfo.AddressList[0];
                     IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
-                    socket.Connect(remoteEP);
+                    try
+                    {
+                        socket.Connect(remoteEP);
+                    }
+
+                    catch (SocketException)
+                    {
+                        Console.WriteLine("No server found");
+                    }
+
                 }
 
                 else
