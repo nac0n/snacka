@@ -124,6 +124,9 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
+
+                    //button2.Text = "Disconnect";
+                    //listBox1.Items.Add("You are now connected");
                 }
 
                 else
@@ -134,6 +137,8 @@ namespace Chatclient
                     //socket.Close();
                     socket = null;
                     //Thread.CurrentThread.Abort();
+                    //button2.Text = "Connect";
+                    //listBox1.Items.Add("You are now disconnected");
                 }
             }
 
@@ -162,6 +167,10 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
+                    
+
+                    //button2.Text = "Disconnect";
+                    //listBox1.Items.Add("You are now connected");
 
                 }
 
@@ -173,6 +182,8 @@ namespace Chatclient
                     //socket.Close();
                     //socket = null;
                     //Thread.CurrentThread.Abort();
+                    //button2.Text = "Connect";
+                    //listBox1.Items.Add("You are now disconnected");
                 }
             }
 
@@ -228,6 +239,14 @@ namespace Chatclient
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == 13)
+            {
+                button1.PerformClick();
+            }
         }
     }
 }
