@@ -127,10 +127,17 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-                    button2.Text = "Disconnect";
-                    listBox1.Items.Add("You are now connected");
-
-
+                    //try
+                    //{
+                    //    button2.Text = "Disconnect";
+                    //    listBox1.Items.Add("You are now connected");
+                    //}
+                    //catch(InvalidOperationException ioe)
+                    //{
+                    //    Console.WriteLine("InvalidOperationException ioe");
+                    //    Console.WriteLine(ioe.Message);
+                    //}
+                    
                 }
 
                 else
@@ -141,8 +148,17 @@ namespace Chatclient
                     //socket.Close();
                     socket = null;
                     //Thread.CurrentThread.Abort();
-                    button2.Text = "Connect";
-                    listBox1.Items.Add("You are now disconnected");
+                    //try
+                    //{
+                    //    button2.Text = "Connect";
+                    //    listBox1.Items.Add("You are now disconnected");
+                    //}
+                    //catch (InvalidOperationException ioe)
+                    //{
+                    //    Console.WriteLine("InvalidOperationException ioe");
+                    //    Console.WriteLine(ioe.Message);
+                    //}
+                    
                 }
             }
 
@@ -172,8 +188,18 @@ namespace Chatclient
                         Console.WriteLine("No server found");
                     }
 
-                    button2.Text = "Disconnect";
-                    listBox1.Items.Add("You are now connected");
+                    //try
+                    //{
+                    //    button2.Text = "Disconnect";
+                    //    listBox1.Items.Add("You are now connected");
+                    //}
+                    //catch (InvalidOperationException ioe)
+                    //{
+                    //    Console.WriteLine("InvalidOperationException ioe");
+                    //    Console.WriteLine(ioe.Message);
+                    //}
+
+
 
                 }
 
@@ -185,8 +211,18 @@ namespace Chatclient
                     //socket.Close();
                     //socket = null;
                     //Thread.CurrentThread.Abort();
-                    button2.Text = "Connect";
-                    listBox1.Items.Add("You are now disconnected");
+
+                    //try
+                    //{
+                    //    button2.Text = "Connect";
+                    //    listBox1.Items.Add("You are now disconnected");
+                    //}
+                    //catch (InvalidOperationException ioe)
+                    //{
+                    //    Console.WriteLine("InvalidOperationException ioe");
+                    //    Console.WriteLine(ioe.Message);
+                    //}
+                    
                 }
             }
 
