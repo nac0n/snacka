@@ -81,7 +81,7 @@ namespace ServerSnacka
                         }
 
                         data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
+                        if (data.IndexOf("") > -1)
                         {
                             break;
                         }

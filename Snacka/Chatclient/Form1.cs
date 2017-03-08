@@ -13,7 +13,7 @@ namespace Chatclient
         protected Thread ConnectThread;
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-        String userName;
+        string userName;
         static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         static IPAddress ipAddress = ipHostInfo.AddressList[0];
         static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
@@ -67,46 +67,52 @@ namespace Chatclient
             }
 
             string sentMsg = textBox1.Text;
-            Console.WriteLine(sentMsg);
-            // Encode the data string into a byte array.  
-            byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "<EOF>");
-            byte[] bytes = new byte[1024];
-            
 
-            // Send the data through the socket.  
-            try
+            if(sentMsg != "")
             {
-                if (socket.Connected == true)
+                Console.WriteLine(sentMsg);
+                // Encode the data string into a byte array.  
+                byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
+                byte[] bytes = new byte[1024];
+
+                // Send the data through the socket.  
+                try
                 {
+                    if (socket.Connected == true)
+                    {
+                        //socket = new Socket(AddressFamily.InterNetwork,
+                        //    SocketType.Stream, ProtocolType.Tcp);
+                        int bytesSent = socket.Send(msg);
+                        Console.WriteLine("Sent Message!");
+
+                        // Receive the response from the remote device.  
+                        int bytesRec = socket.Receive(bytes);
+                        string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                        Console.WriteLine("Echoed test = {0}", str);
+
+                        this.Invoke(new MethodInvoker(delegate ()
+                        {
+                            listBox1.Items.Add(str);
+                        }));
+
+                        //textBox1.Text = "";
+
+                    }
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("Error in try method around line 103, SocketException");
+                    Console.WriteLine(se.Message);
+                }
+                catch (NullReferenceException nre)
+                {
+                    Console.WriteLine("Error in try method around line 108, NullreferenceException");
+                    Console.WriteLine(nre.Message);
                     //socket = new Socket(AddressFamily.InterNetwork,
                     //    SocketType.Stream, ProtocolType.Tcp);
-                    int bytesSent = socket.Send(msg);
-                    Console.WriteLine("Sent Message!");
-
-                    // Receive the response from the remote device.  
-                    int bytesRec = socket.Receive(bytes);
-                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Echoed test = {0}", str);
-
-                    this.Invoke(new MethodInvoker(delegate ()
-                    {
-                        listBox1.Items.Add(str);
-                    }));
-
                 }
             }
-            catch (SocketException se)
-            {
-                Console.WriteLine("Error in try method around line 103, SocketException");
-                Console.WriteLine(se.Message);
-            }
-            catch (NullReferenceException nre)
-            {
-                Console.WriteLine("Error in try method around line 108, NullreferenceException");
-                Console.WriteLine(nre.Message);
-                //socket = new Socket(AddressFamily.InterNetwork,
-                //    SocketType.Stream, ProtocolType.Tcp);
-            }
+           
         }
 
         private void ConnectionUser()
@@ -120,6 +126,7 @@ namespace Chatclient
                     {
                         socket.Connect(remoteEP);
                     }
+
                     catch (SocketException)
                     {
                         Console.WriteLine("No server found");
@@ -137,6 +144,7 @@ namespace Chatclient
                     //socket.Close();
                     socket = null;
                     //Thread.CurrentThread.Abort();
+
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
                 }
@@ -167,7 +175,7 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-                    
+
 
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
@@ -182,6 +190,7 @@ namespace Chatclient
                     //socket.Close();
                     //socket = null;
                     //Thread.CurrentThread.Abort();
+
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
                 }
