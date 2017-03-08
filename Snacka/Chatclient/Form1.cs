@@ -13,7 +13,7 @@ namespace Chatclient
         protected Thread ConnectThread;
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-        String userName;
+        string userName;
         static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         static IPAddress ipAddress = ipHostInfo.AddressList[0];
         static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
@@ -95,6 +95,7 @@ namespace Chatclient
 
                 }
             }
+
             catch (SocketException se)
             {
                 Console.WriteLine("Error in try method around line 103, SocketException");
@@ -127,17 +128,9 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-                    //try
-                    //{
-                    //    button2.Text = "Disconnect";
-                    //    listBox1.Items.Add("You are now connected");
-                    //}
-                    //catch(InvalidOperationException ioe)
-                    //{
-                    //    Console.WriteLine("InvalidOperationException ioe");
-                    //    Console.WriteLine(ioe.Message);
-                    //}
-                    
+
+                    //button2.Text = "Disconnect";
+                    //listBox1.Items.Add("You are now connected");
                 }
 
                 else
@@ -164,12 +157,16 @@ namespace Chatclient
 
             else
             {
-                //try
-                //{
+                try
+                {
                     socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-                //}
-                //catch (Exception e) { Console.WriteLine(e.Message); };
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Couldn't create new socket");
+                    Console.WriteLine(e.Message);
+                };
 
 
                 if (socket.Connected == false)
@@ -187,19 +184,10 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-
-                    //try
-                    //{
-                    //    button2.Text = "Disconnect";
-                    //    listBox1.Items.Add("You are now connected");
-                    //}
-                    //catch (InvalidOperationException ioe)
-                    //{
-                    //    Console.WriteLine("InvalidOperationException ioe");
-                    //    Console.WriteLine(ioe.Message);
-                    //}
-
-
+                    
+                    //button2.text = "disconnect";
+                    //listbox1.items.add("you are now connected");
+                    
 
                 }
 
@@ -211,18 +199,10 @@ namespace Chatclient
                     //socket.Close();
                     //socket = null;
                     //Thread.CurrentThread.Abort();
-
-                    //try
-                    //{
-                    //    button2.Text = "Connect";
-                    //    listBox1.Items.Add("You are now disconnected");
-                    //}
-                    //catch (InvalidOperationException ioe)
-                    //{
-                    //    Console.WriteLine("InvalidOperationException ioe");
-                    //    Console.WriteLine(ioe.Message);
-                    //}
                     
+                    //button2.Text = "Connect";
+                    //listBox1.Items.Add("You are now disconnected");
+
                 }
             }
 
