@@ -13,7 +13,7 @@ namespace ServerSnacka
     {
         // Incoming data from the client.  
         public static string data = null;
-        public static List<Socket>_clientSocketsList = new List<Socket>();
+        public static List<Socket>_clientsList = new List<Socket>();
         //public static List<Thread> threads = new List<Thread>();
         
         public static int Main(String[] args)
@@ -22,20 +22,21 @@ namespace ServerSnacka
             return 0;
         }
 
-        public static void SendToAllClients(byte[] msg)
-        {
-            foreach(Socket client in _clientSocketsList)
-            {
-                client.Send(msg);
-            }
-        }
+        //public static void SendToAllClients(byte[] msg)
+        //{
+        //    foreach(Socket client in _clientsList)
+        //    {
+        //        client.Send(msg);
+        //    }
+        //}
 
         public static void ThreadWork(Socket handler)
         {
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             Socket socket = handler;
-            _clientSocketsList.Add(socket);
+            
+            //_clientsList.Add(socket);
 
             while (true)
             {
@@ -97,7 +98,7 @@ namespace ServerSnacka
                             byte[] msg = Encoding.UTF8.GetBytes(data);
                             data = "";
                             Console.WriteLine("Trying to respond with message to client!");
-                            SendToAllClients(msg);
+                            //SendToAllClients(msg);
                             Console.WriteLine("SENT!");
                         }
                         catch (ObjectDisposedException ode)
@@ -160,12 +161,12 @@ namespace ServerSnacka
 
             // Bind the socket to the local endpoint and   
             // listen for incoming connections.  
+            
+            listener.Bind(localEndPoint);
+            listener.Listen(10);
 
             try
             {
-                listener.Bind(localEndPoint);
-                listener.Listen(10);
-
                 // Program is suspended while waiting for an incoming connection.  
                 while (true)
                 {
