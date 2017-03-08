@@ -21,21 +21,36 @@ namespace ServerSnacka
             StartListening();
             return 0;
         }
+        public static void PollClient(Socket socket)
+        {
+            Console.WriteLine("Polling Client");
+            socket.Poll(5000, SelectMode.SelectRead);
+            Console.WriteLine("Done Polling Client");
+        }
 
-        //public static void SendToAllClients(byte[] msg)
-        //{
-        //    foreach(Socket client in _clientSocketsList)
-        //    {
-        //        client.Send(msg);
-        //    }
-        //}
+        public static void SendToAllClients(byte[] msg)
+        {
+            Console.WriteLine("CLIENTS:");
+            int temp = 1;
+            foreach (Socket client in _clientSocketsList)
+            {
+                //Console.WriteLine("Client number: " + temp);
+                //Console.WriteLine("AdressFamily: " + client.AddressFamily);
+                //Console.WriteLine("Connected: " + client.Connected);
+                //Console.WriteLine("LocalEndPoint: " + client.LocalEndPoint);
+                //if(client.Available && )
+                client.Send(msg);
+                temp += 1;
+            }
+            Console.WriteLine("SENT!");
+        }
 
         public static void ThreadWork(Socket handler)
         {
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             Socket socket = handler;
-           //_clientSocketsList.Add(socket);
+           _clientSocketsList.Add(socket);
 
             while (true)
             {
@@ -52,6 +67,8 @@ namespace ServerSnacka
                         try
                         {
                             //Tråden stannar här och väntar på att klient ska skriva någonting.
+                            Thread t = new Thread(() => PollClient(socket));
+                            t.Start();
                             bytesRec = socket.Receive(bytes);
                         }
 
@@ -98,9 +115,11 @@ namespace ServerSnacka
                             byte[] msg = Encoding.UTF8.GetBytes(data);
                             data = "";
                             Console.WriteLine("Trying to respond with message to client!");
-                            socket.Send(msg);
+                            //socket.Send(msg);
+                            Thread th = new Thread(() => SendToAllClients(msg));
+                            th.Start();
                             //SendToAllClients(msg);
-                            Console.WriteLine("SENT!");
+                            
                             //socket.Close();
                             //try
                             //{

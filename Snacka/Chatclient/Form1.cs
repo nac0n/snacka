@@ -17,6 +17,8 @@ namespace Chatclient
         static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         static IPAddress ipAddress = ipHostInfo.AddressList[0];
         static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+        public static bool runPoll = false;
+        public static bool listeningToServer = false;
 
         public Form1()
         {
@@ -57,6 +59,56 @@ namespace Chatclient
 
         }
 
+        public void ListenToServer(Socket socket)
+        {
+            while(listeningToServer == true)
+            {
+                byte[] bytes = new byte[1024];
+                int bytesRec = socket.Receive(bytes);
+
+                string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                Console.WriteLine("Someone Wrote = {0}", str);
+
+                Invoke(new MethodInvoker(delegate ()
+                {
+                    listBox1.Items.Add(str);
+                    textBox1.Text = "";
+                }));
+            }
+            if (listeningToServer == false)
+            {
+                try
+                {
+                    Thread.CurrentThread.Abort();
+                }
+                catch (ThreadAbortException tae)
+                {
+                    Console.WriteLine(tae.Message);
+                }
+            }
+            Console.WriteLine("Stopped listening to server...");
+        }
+
+        //public static void PollTheServer(Socket socket)
+        //{
+        //    Console.WriteLine(socket.Poll(1000, SelectMode.SelectRead));
+        //    socket.Poll(1000, SelectMode.SelectRead);
+        //    while (runPoll == true)
+        //    {
+
+        //        try
+        //        {
+        //            Console.Write("");
+        //        }
+        //        catch(Exception e)
+        //        {
+        //            Console.WriteLine(e.Message);
+        //            Console.WriteLine("Stopped polling server, Exception...");
+        //            break;
+        //        }
+
+        //    }
+        //}
         private void SendMessage()
         {
             userName = textBox4.Text;
@@ -73,7 +125,7 @@ namespace Chatclient
                 Console.WriteLine(sentMsg);
                 // Encode the data string into a byte array.  
                 byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
-                byte[] bytes = new byte[1024];
+                
 
                 // Send the data through the socket.  
                 try
@@ -85,14 +137,17 @@ namespace Chatclient
                         int bytesSent = socket.Send(msg);
                         Console.WriteLine("Sent Message!");
 
+
                         // Receive the response from the remote device.  
+                        byte[] bytes = new byte[1024];
                         int bytesRec = socket.Receive(bytes);
                         string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
                         Console.WriteLine("Echoed test = {0}", str);
 
-                        this.Invoke(new MethodInvoker(delegate ()
+                        Invoke(new MethodInvoker(delegate ()
                         {
                             listBox1.Items.Add(str);
+                            textBox1.Text = "";
                         }));
 
                         //textBox1.Text = "";
@@ -125,6 +180,14 @@ namespace Chatclient
                     try
                     {
                         socket.Connect(remoteEP);
+                        listeningToServer = true;
+                        Thread t = new Thread(() => ListenToServer(socket));
+                        t.Start();
+                        
+                        //runPoll = true;
+                        //Thread t = new Thread(() => PollTheServer(socket));
+                        //t.Start();
+                       
                     }
 
                     catch (SocketException)
@@ -142,6 +205,8 @@ namespace Chatclient
                     //socket.Shutdown(SocketShutdown.Both);
                     //socket.Disconnect(false);
                     //socket.Close();
+                    runPoll = false;
+                    listeningToServer = false;
                     socket = null;
                     //Thread.CurrentThread.Abort();
 
@@ -169,6 +234,13 @@ namespace Chatclient
                     try
                     {
                         socket.Connect(remoteEP);
+                        listeningToServer = true;
+                        Thread t = new Thread(() => ListenToServer(socket));
+                        t.Start();
+                        //runPoll = true;
+
+                        //Thread t = new Thread(() => PollTheServer(socket));
+                        //t.Start();
                     }
 
                     catch (SocketException)
@@ -184,6 +256,8 @@ namespace Chatclient
 
                 else
                 {
+                    runPoll = false;
+                    listeningToServer = false;
                     // Release the socket.  
                     //socket.Shutdown(SocketShutdown.Both);
                     //socket.Disconnect(false);
