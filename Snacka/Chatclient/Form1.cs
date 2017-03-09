@@ -17,7 +17,6 @@ namespace Chatclient
         static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         static IPAddress ipAddress = ipHostInfo.AddressList[0];
         static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-        public static bool runPoll = false;
         public static bool listeningToServer = false;
 
         public Form1()
@@ -64,51 +63,30 @@ namespace Chatclient
             while(listeningToServer == true)
             {
                 byte[] bytes = new byte[1024];
-                int bytesRec = socket.Receive(bytes);
-
-                string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                Console.WriteLine("Someone Wrote = {0}", str);
-
-                Invoke(new MethodInvoker(delegate ()
-                {
-                    listBox1.Items.Add(str);
-                    textBox1.Text = "";
-                }));
-            }
-            if (listeningToServer == false)
-            {
+                //socket.ReceiveTimeout = 1000;
                 try
                 {
-                    Thread.CurrentThread.Abort();
+                    int bytesRec = socket.Receive(bytes);
+                    
+                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                    Console.WriteLine("Someone Wrote = {0}", str);
+
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        listBox1.Items.Add(str);
+                        textBox1.Text = "";
+                    }));
                 }
-                catch (ThreadAbortException tae)
+
+                catch(Exception e)
                 {
-                    Console.WriteLine(tae.Message);
+                    Console.WriteLine("Listening for a message...");
                 }
+                
             }
             Console.WriteLine("Stopped listening to server...");
         }
 
-        //public static void PollTheServer(Socket socket)
-        //{
-        //    Console.WriteLine(socket.Poll(1000, SelectMode.SelectRead));
-        //    socket.Poll(1000, SelectMode.SelectRead);
-        //    while (runPoll == true)
-        //    {
-
-        //        try
-        //        {
-        //            Console.Write("");
-        //        }
-        //        catch(Exception e)
-        //        {
-        //            Console.WriteLine(e.Message);
-        //            Console.WriteLine("Stopped polling server, Exception...");
-        //            break;
-        //        }
-
-        //    }
-        //}
         private void SendMessage()
         {
             userName = textBox4.Text;
@@ -156,12 +134,12 @@ namespace Chatclient
                 }
                 catch (SocketException se)
                 {
-                    Console.WriteLine("Error in try method around line 103, SocketException");
+                    Console.WriteLine("Error in try method around line 149, SocketException");
                     Console.WriteLine(se.Message);
                 }
                 catch (NullReferenceException nre)
                 {
-                    Console.WriteLine("Error in try method around line 108, NullreferenceException");
+                    Console.WriteLine("Error in try method around line 158, NullreferenceException");
                     Console.WriteLine(nre.Message);
                     //socket = new Socket(AddressFamily.InterNetwork,
                     //    SocketType.Stream, ProtocolType.Tcp);
@@ -205,7 +183,6 @@ namespace Chatclient
                     //socket.Shutdown(SocketShutdown.Both);
                     //socket.Disconnect(false);
                     //socket.Close();
-                    runPoll = false;
                     listeningToServer = false;
                     socket = null;
                     //Thread.CurrentThread.Abort();
@@ -256,7 +233,6 @@ namespace Chatclient
 
                 else
                 {
-                    runPoll = false;
                     listeningToServer = false;
                     // Release the socket.  
                     //socket.Shutdown(SocketShutdown.Both);
