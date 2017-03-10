@@ -17,6 +17,7 @@ namespace Chatclient
         static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         static IPAddress ipAddress = ipHostInfo.AddressList[0];
         static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+        public static bool listeningToServer = false;
 
         public Form1()
         {
@@ -57,6 +58,60 @@ namespace Chatclient
 
         }
 
+        public void ListenToServer(Socket socket)
+        {
+            while(listeningToServer == true)
+            {
+                byte[] bytes = new byte[1024];
+
+
+                try
+                {
+                    if(socket.Connected == false)
+                    {
+                        listeningToServer = false;
+                    }
+                    
+                    if(listeningToServer == true)
+                    {
+                        try
+                        {
+                            int bytesRec = socket.Receive(bytes);
+                            string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                            Console.WriteLine("Someone Wrote = {0}", str);
+
+                            Invoke(new MethodInvoker(delegate ()
+                            {
+                                listBox1.Items.Add(str);
+                                textBox1.Text = "";
+                            }));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+                }
+
+                catch(SocketException se)
+                {
+
+                    Console.WriteLine(se.Message);
+                    //try
+                    //{
+                    //    Thread.CurrentThread.Abort();
+                    //} 
+                    //catch(ThreadAbortException tae)
+                    //{
+                    //    Console.WriteLine("Tried to abort thread row 80");
+                    //    Console.WriteLine(tae.Message);
+                    //}
+                }
+                
+            }
+            Console.WriteLine("Stopped listening to server...");
+        }
+
         private void SendMessage()
         {
             userName = textBox4.Text;
@@ -67,63 +122,82 @@ namespace Chatclient
             }
 
             string sentMsg = textBox1.Text;
-            Console.WriteLine(sentMsg);
-            // Encode the data string into a byte array.  
-            byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "<EOF>");
-            byte[] bytes = new byte[1024];
-            
 
-            // Send the data through the socket.  
-            try
+            if(sentMsg != "")
             {
-                if (socket.Connected == true)
+                Console.WriteLine(sentMsg);
+                // Encode the data string into a byte array.  
+                byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
+                
+
+                // Send the data through the socket.  
+                try
                 {
+                    if (socket.Connected == true)
+                    {
+                        //socket = new Socket(AddressFamily.InterNetwork,
+                        //    SocketType.Stream, ProtocolType.Tcp);
+                        int bytesSent = socket.Send(msg);
+                        Console.WriteLine("Sent Message!");
+
+
+                        // Receive the response from the remote device.  
+                        byte[] bytes = new byte[1024];
+                        int bytesRec = socket.Receive(bytes);
+                        string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                        Console.WriteLine("Echoed test = {0}", str);
+
+                        Invoke(new MethodInvoker(delegate ()
+                        {
+                            listBox1.Items.Add(str);
+                            textBox1.Text = "";
+                        }));
+
+                        //textBox1.Text = "";
+
+                    }
+                }
+                catch (SocketException se)
+                {
+                    Console.WriteLine("Error in try method around line 165, SocketException");
+                    Console.WriteLine(se.Message);
+                }
+                catch (NullReferenceException nre)
+                {
+                    Console.WriteLine("Error in try method around line 170, NullreferenceException");
+                    Console.WriteLine(nre.Message);
                     //socket = new Socket(AddressFamily.InterNetwork,
                     //    SocketType.Stream, ProtocolType.Tcp);
-                    int bytesSent = socket.Send(msg);
-                    Console.WriteLine("Sent Message!");
-
-                    // Receive the response from the remote device.  
-                    int bytesRec = socket.Receive(bytes);
-                    string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Echoed test = {0}", str);
-
-                    this.Invoke(new MethodInvoker(delegate ()
-                    {
-                        listBox1.Items.Add(str);
-                    }));
-
                 }
             }
 
-            catch (SocketException se)
-            {
-                Console.WriteLine("Error in try method around line 103, SocketException");
-                Console.WriteLine(se.Message);
-            }
-            catch (NullReferenceException nre)
-            {
-                Console.WriteLine("Error in try method around line 108, NullreferenceException");
-                Console.WriteLine(nre.Message);
-                //socket = new Socket(AddressFamily.InterNetwork,
-                //    SocketType.Stream, ProtocolType.Tcp);
-            }
         }
 
         private void ConnectionUser()
         {
+            //Connect/Disconnect button event
             if (socket != null)
             {
                 if (socket.Connected == false)
                 {
-                    // IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    // IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    // IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
+                    //CONNECT
+                    
+                    socket = new Socket(AddressFamily.InterNetwork,
+                            SocketType.Stream, ProtocolType.Tcp);
                     try
                     {
                         socket.Connect(remoteEP);
+                        listeningToServer = true;
+                        Thread t = new Thread(() => ListenToServer(socket));
+                        t.Start();
+                        
+                        //runPoll = true;
+                        //Thread t = new Thread(() => PollTheServer(socket));
+                        //t.Start();
+                       
                     }
+
                     catch (SocketException)
                     {
                         Console.WriteLine("No server found");
@@ -135,10 +209,13 @@ namespace Chatclient
 
                 else
                 {
+                    //DISCONNECT
+
                     // Release the socket.  
                     //socket.Shutdown(SocketShutdown.Both);
                     //socket.Disconnect(false);
-                    //socket.Close();
+                    socket.Close();
+                    listeningToServer = false;
                     socket = null;
                     //Thread.CurrentThread.Abort();
                     //try
@@ -178,6 +255,13 @@ namespace Chatclient
                     try
                     {
                         socket.Connect(remoteEP);
+                        listeningToServer = true;
+                        Thread t = new Thread(() => ListenToServer(socket));
+                        t.Start();
+                        //runPoll = true;
+
+                        //Thread t = new Thread(() => PollTheServer(socket));
+                        //t.Start();
                     }
 
                     catch (SocketException)
@@ -188,21 +272,22 @@ namespace Chatclient
                     //button2.text = "disconnect";
                     //listbox1.items.add("you are now connected");
                     
-
+                    //button2.Text = "Disconnect";
+                    //listBox1.Items.Add("You are now connected");
                 }
 
                 else
                 {
+                    listeningToServer = false;
                     // Release the socket.  
                     //socket.Shutdown(SocketShutdown.Both);
                     //socket.Disconnect(false);
                     //socket.Close();
                     //socket = null;
                     //Thread.CurrentThread.Abort();
-                    
+                    //
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
-
                 }
             }
 

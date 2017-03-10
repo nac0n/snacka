@@ -21,21 +21,53 @@ namespace ServerSnacka
             StartListening();
             return 0;
         }
+        public static void PollClient(Socket socket)
+        {
+            Console.WriteLine("Polling Client");
+            socket.Poll(5000, SelectMode.SelectRead);
+            Console.WriteLine("Done Polling Client");
+        }
+        public static void CheckAndFixAvailableClients()
+        {
 
-        //public static void SendToAllClients(byte[] msg)
-        //{
-        //    foreach(Socket client in _clientSocketsList)
-        //    {
-        //        client.Send(msg);
-        //    }
-        //}
+            for(int i = 0; i < _clientSocketsList.Count; i++)
+            {
+                if(_clientSocketsList[i].Connected == false)
+                {
+                    _clientSocketsList.RemoveAt(i);
+                }
+            }
+           
+        }
+
+        public static void SendToAllClients(byte[] msg)
+        {
+            CheckAndFixAvailableClients();
+            Console.WriteLine("CLIENTS:");
+            int temp = 1;
+            foreach (Socket client in _clientSocketsList)
+            {
+                try
+                {
+                    Console.WriteLine("FOUND CLIENTS, SENDING...");
+                    client.Send(msg);
+                    temp += 1;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            Console.WriteLine("SENT!");
+            
+        }
 
         public static void ThreadWork(Socket handler)
         {
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             Socket socket = handler;
-           //_clientSocketsList.Add(socket);
+           _clientSocketsList.Add(socket);
 
             while (true)
             {
@@ -52,6 +84,8 @@ namespace ServerSnacka
                         try
                         {
                             //Tråden stannar här och väntar på att klient ska skriva någonting.
+                            Thread t = new Thread(() => PollClient(socket));
+                            t.Start();
                             bytesRec = socket.Receive(bytes);
                         }
 
@@ -81,7 +115,7 @@ namespace ServerSnacka
                         }
 
                         data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
+                        if (data.IndexOf("") > -1)
                         {
                             break;
                         }
@@ -98,10 +132,11 @@ namespace ServerSnacka
                             byte[] msg = Encoding.UTF8.GetBytes(data);
                             data = "";
                             Console.WriteLine("Trying to respond with message to client!");
-
-                            socket.Send(msg);
-                            //SendToAllClients(msg);
-                            Console.WriteLine("SENT!");
+                            
+                            //socket.Send(msg);
+                            Thread th = new Thread(() => SendToAllClients(msg));
+                            th.Start();
+                            
                             //socket.Close();
                             //try
                             //{
@@ -157,7 +192,7 @@ namespace ServerSnacka
                     }
                     catch (ObjectDisposedException ode)
                     {
-                        Console.WriteLine("Socket already closed...");
+                        Console.WriteLine("Socket closed and gone...");
                         //ThreadWork(socket);
                         //break;
                         //try
