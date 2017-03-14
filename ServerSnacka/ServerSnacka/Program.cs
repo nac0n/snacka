@@ -4,14 +4,11 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 using System.Collections.Generic;
-//using System.Linq;
-//using System.Collections.Generic;
 
 namespace ServerSnacka
 {
     public class Server
     {
-        // Incoming data from the client.  
         public static string data = "";
         public static List<Socket>_clientSocketsList = new List<Socket>();
         //public static List<Thread> threads = new List<Thread>();
@@ -21,12 +18,7 @@ namespace ServerSnacka
             StartListening();
             return 0;
         }
-        public static void PollClient(Socket socket)
-        {
-            Console.WriteLine("Polling Client");
-            socket.Poll(5000, SelectMode.SelectRead);
-            Console.WriteLine("Done Polling Client");
-        }
+        
         public static void CheckAndFixAvailableClients()
         {
 
@@ -83,9 +75,6 @@ namespace ServerSnacka
 
                         try
                         {
-                            //Tråden stannar här och väntar på att klient ska skriva någonting.
-                            Thread t = new Thread(() => PollClient(socket));
-                            t.Start();
                             bytesRec = socket.Receive(bytes);
                         }
 
@@ -137,16 +126,6 @@ namespace ServerSnacka
                             Thread th = new Thread(() => SendToAllClients(msg));
                             th.Start();
                             
-                            //socket.Close();
-                            //try
-                            //{
-                            //    Thread.CurrentThread.Abort();
-                            //}
-                            //catch(ThreadAbortException tae)
-                            //{
-                            //    Console.WriteLine("Couldn't Abort Thread, Row 110");
-                            //    Console.WriteLine(tae.Message);
-                            //}
                             
                         }
                         catch (ObjectDisposedException ode)
@@ -178,32 +157,10 @@ namespace ServerSnacka
                     try
                     {
                         socket = handler;
-                        //socket.Shutdown(SocketShutdown.Both);
-                        //socket.Close();
-                        //try
-                        //{
-                        //    Thread.CurrentThread.Abort();
-                        //}
-                        //catch(ThreadAbortException tae)
-                        //{
-                        //    Console.WriteLine("Couldn't Abort Thread, Row 110");
-                        //    Console.WriteLine(tae.Message);
-                        //}
                     }
                     catch (ObjectDisposedException ode)
                     {
                         Console.WriteLine("Socket closed and gone...");
-                        //ThreadWork(socket);
-                        //break;
-                        //try
-                        //{
-                        //    Thread.CurrentThread.Abort();
-                        //}
-                        //catch(ThreadAbortException tae)
-                        //{
-                        //    Console.WriteLine("Couldn't Abort Thread, Row 110");
-                        //    Console.WriteLine(tae.Message);
-                        //}
                     }
 
                 }
@@ -233,15 +190,12 @@ namespace ServerSnacka
 
             try
             {
-                // Program is suspended while waiting for an incoming connection.  
                 while (true)
                 {
                     Console.WriteLine("Waiting for a connection...");
+                    // Program is suspended while waiting for an incoming connection.  
                     Socket handler = listener.Accept();
                     Thread thread = new Thread(() => ThreadWork(handler));
-                    // threads.Add(new Thread(() => ThreadWork(handler)));
-                    //Thread t = threads.ElementAt<Thread>(threads.Count -1);
-                    //t.Start();
                     thread.Start();
                     Console.WriteLine("Client Connected");
                 }

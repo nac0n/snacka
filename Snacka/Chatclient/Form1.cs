@@ -95,17 +95,7 @@ namespace Chatclient
 
                 catch(SocketException se)
                 {
-
                     Console.WriteLine(se.Message);
-                    //try
-                    //{
-                    //    Thread.CurrentThread.Abort();
-                    //} 
-                    //catch(ThreadAbortException tae)
-                    //{
-                    //    Console.WriteLine("Tried to abort thread row 80");
-                    //    Console.WriteLine(tae.Message);
-                    //}
                 }
                 
             }
@@ -135,8 +125,6 @@ namespace Chatclient
                 {
                     if (socket.Connected == true)
                     {
-                        //socket = new Socket(AddressFamily.InterNetwork,
-                        //    SocketType.Stream, ProtocolType.Tcp);
                         int bytesSent = socket.Send(msg);
                         Console.WriteLine("Sent Message!");
 
@@ -149,11 +137,10 @@ namespace Chatclient
 
                         Invoke(new MethodInvoker(delegate ()
                         {
-                            listBox1.Items.Add(str);
+                            listBox1.Items.Add(str + "TEST");
                             textBox1.Text = "";
                         }));
-
-                        //textBox1.Text = "";
+                        
 
                     }
                 }
@@ -166,8 +153,6 @@ namespace Chatclient
                 {
                     Console.WriteLine("Error in try method around line 170, NullreferenceException");
                     Console.WriteLine(nre.Message);
-                    //socket = new Socket(AddressFamily.InterNetwork,
-                    //    SocketType.Stream, ProtocolType.Tcp);
                 }
             }
 
@@ -192,9 +177,6 @@ namespace Chatclient
                         Thread t = new Thread(() => ListenToServer(socket));
                         t.Start();
                         
-                        //runPoll = true;
-                        //Thread t = new Thread(() => PollTheServer(socket));
-                        //t.Start();
                        
                     }
 
@@ -211,13 +193,10 @@ namespace Chatclient
                 {
                     //DISCONNECT
 
-                    // Release the socket.  
-                    //socket.Shutdown(SocketShutdown.Both);
-                    //socket.Disconnect(false);
                     socket.Close();
                     listeningToServer = false;
                     socket = null;
-                    //Thread.CurrentThread.Abort();
+
                     //try
                     //{
                     //    button2.Text = "Connect";
@@ -248,30 +227,19 @@ namespace Chatclient
 
                 if (socket.Connected == false)
                 {
-                    //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                    //IPAddress ipAddress = ipHostInfo.AddressList[0];
-                    //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-
                     try
                     {
                         socket.Connect(remoteEP);
                         listeningToServer = true;
                         Thread t = new Thread(() => ListenToServer(socket));
                         t.Start();
-                        //runPoll = true;
-
-                        //Thread t = new Thread(() => PollTheServer(socket));
-                        //t.Start();
                     }
 
                     catch (SocketException)
                     {
                         Console.WriteLine("No server found");
                     }
-                    
-                    //button2.text = "disconnect";
-                    //listbox1.items.add("you are now connected");
-                    
+
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
                 }
@@ -279,55 +247,11 @@ namespace Chatclient
                 else
                 {
                     listeningToServer = false;
-                    // Release the socket.  
-                    //socket.Shutdown(SocketShutdown.Both);
-                    //socket.Disconnect(false);
-                    //socket.Close();
-                    //socket = null;
-                    //Thread.CurrentThread.Abort();
-                    //
+
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
                 }
             }
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //if (SocketConnected())
-            //{
-            //    Console.WriteLine("Socket was connected, disconnecting now...");
-
-            //    socket.Shutdown(SocketShutdown.Both);
-            //    socket.Disconnect(false);
-            //    //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-            //    //IPAddress ipAddress = ipHostInfo.AddressList[0];
-            //    //IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-            //    //socket.Poll(5000, SelectMode.SelectWrite);
-            //    //socket.Connect(remoteEP);
-            //}
-
-            //else
-            //{
-            //    socket = new Socket(AddressFamily.InterNetwork,
-            //        SocketType.Stream, ProtocolType.Tcp);
-            //    Console.WriteLine("Socket was disconnected, connecting now...");
-            //    IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-            //    IPAddress ipAddress = ipHostInfo.AddressList[0];
-            //    IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-            //    socket.Poll(5000, SelectMode.SelectWrite);
-            //    socket.Connect(remoteEP);
-
-            //    // Release the socket.  
-            //    //socket.Shutdown(SocketShutdown.Both);
-            //    //socket.Disconnect(false);
-            //    //socket.Close();
-
-            //    //socket = null;
-            //}
-            // Send message 
-            // get response
-            // Disconnect socket
-            // abort thread
         }
 
         bool SocketConnected()
