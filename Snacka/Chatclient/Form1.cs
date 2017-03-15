@@ -60,8 +60,6 @@ namespace Chatclient
         {
             //User's typebox
             Console.Write("User types ");
-            listBox1.Text = "User";
-
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,7 +88,6 @@ namespace Chatclient
             while(listeningToServer == true)
             {
                 byte[] bytes = new byte[1024];
-
 
                 try
                 {
