@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Chatclient
 {
@@ -14,19 +15,41 @@ namespace Chatclient
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
         string userName;
-        static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-        static IPAddress ipAddress = ipHostInfo.AddressList[0];
-        static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+
+        //static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+        //static IPAddress ipAddress = ipHostInfo.AddressList[0];
+        //public static string ip = "192.168.56.1";
+        //public static long ipadress = Convert.ToInt64(ip);
+
+        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.56.1:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
 
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public static IPEndPoint CreateIPEndPoint(string endPoint)
+        {
+            string[] ep = endPoint.Split(':');
+            if (ep.Length != 2) throw new FormatException("Invalid endpoint format");
+            IPAddress ip;
+            if (!IPAddress.TryParse(ep[0], out ip))
+            {
+                throw new FormatException("Invalid ip-adress");
+            }
+            int port;
+            if (!int.TryParse(ep[1], NumberStyles.None, NumberFormatInfo.CurrentInfo, out port))
+            {
+                throw new FormatException("Invalid port");
+            }
+            return new IPEndPoint(ip, port);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
