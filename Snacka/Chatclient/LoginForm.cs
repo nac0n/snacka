@@ -13,6 +13,7 @@ namespace Chatclient
 {
     public partial class LoginForm : Form
     {
+
         public LoginForm()
         {
             InitializeComponent();
@@ -23,10 +24,24 @@ namespace Chatclient
 
         }
 
+        public string Hash(string password)
+        {
+            var bytes = new UTF8Encoding().GetBytes(password);
+            byte[] hashBytes;
+            using (var algorithm = new System.Security.Cryptography.SHA512Managed())
+            {
+                hashBytes = algorithm.ComputeHash(bytes);
+            }
+            return Convert.ToBase64String(hashBytes);
+        }
+
         private void Login_Click(object sender, EventArgs e)
         {
+            string password = textBox2.Text.Trim();
+            string hashed = Hash(password);
+
             SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Jessica\snacka\db\snackaDb.mdf;Integrated Security=True;Connect Timeout=30");
-            string query = "SELECT * from login Where username = '" + textBox1.Text.Trim() + "' and password = '"+ textBox2.Text.Trim() + "'";
+            string query = "SELECT * from login Where username = '" + textBox1.Text.Trim() + "' and password = '"+ hashed + "'";
             SqlDataAdapter sda = new SqlDataAdapter(query, conn);
             DataTable dtbl = new DataTable();
             sda.Fill(dtbl);
@@ -41,6 +56,11 @@ namespace Chatclient
                 MessageBox.Show("Wrong Password, try again");
             }
 
+        }
+
+        private void GetHashCode(string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }
