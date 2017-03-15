@@ -25,7 +25,7 @@ namespace Chatclient
         //public static string ip = "192.168.56.1";
         //public static long ipadress = Convert.ToInt64(ip);
 
-        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.43.191:11000"); /*new IPEndPoint(ipAddress, 11000);*/
+        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
 
         public Form1()

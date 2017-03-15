@@ -168,6 +168,7 @@ namespace ServerSnacka
             }
 
         }
+
         public static IPEndPoint CreateIPEndPoint(string endPoint)
         {
             string[] ep = endPoint.Split(':');
@@ -194,7 +195,7 @@ namespace ServerSnacka
             //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
            // IPAddress ipAddress = ipHostInfo.AddressList[0];
             //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
-            IPEndPoint localEndPoint = CreateIPEndPoint("192.168.43.191:11000");
+            IPEndPoint localEndPoint = CreateIPEndPoint("192.168.153.113:11000");
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(AddressFamily.InterNetwork,
