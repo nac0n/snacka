@@ -4,11 +4,15 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace Chatclient
 {
     public partial class Form1 : Form
     {
+        //Kryptering hash
+        string hash = "f0xle@rn";
+
         protected Thread SendThread;
         protected Thread ConnectThread;
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
@@ -80,6 +84,19 @@ namespace Chatclient
                             string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
                             Console.WriteLine("Someone Wrote = {0}", str);
 
+                            // Dekryptera str
+                            byte[] data2 = Convert.FromBase64String(str);
+                            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                            {
+                                byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                                using (TripleDESCryptoServiceProvider triDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                                {
+                                    ICryptoTransform transform = triDes.CreateDecryptor();
+                                    byte[] results = transform.TransformFinalBlock(data2, 0, data2.Length);
+                                    str = UTF8Encoding.UTF8.GetString(results);
+                                }
+                            }
+
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
@@ -116,8 +133,30 @@ namespace Chatclient
             if(sentMsg != "")
             {
                 Console.WriteLine(sentMsg);
+
+                string complSentMsg = userName + ": " + sentMsg;
+
+                //Krypterar compSentMsg
+                //Console.WriteLine("Skriv en text");
+                //string Text = Console.ReadLine();
+                byte[] data1 = UTF8Encoding.UTF8.GetBytes(complSentMsg);
+                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                    using (TripleDESCryptoServiceProvider triDes = new TripleDESCryptoServiceProvider()
+                    { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                    {
+                        ICryptoTransform transform = triDes.CreateEncryptor();
+                        byte[] result = transform.TransformFinalBlock(data1, 0, data1.Length);
+                        complSentMsg = Convert.ToBase64String(result, 0, result.Length);
+                    }
+                }
+
                 // Encode the data string into a byte array.  
-                byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
+                byte[] msg = Encoding.UTF8.GetBytes(complSentMsg);
+
+          // Encode the data string into a byte array.  
+          //byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
                 
 
                 // Send the data through the socket.  
@@ -135,13 +174,25 @@ namespace Chatclient
                         string str = Encoding.UTF8.GetString(bytes, 0, bytesRec);
                         Console.WriteLine("Echoed test = {0}", str);
 
+                        // Dekryptera str
+                        byte[] data2 = Convert.FromBase64String(str);
+                        using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                        {
+                            byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                            using (TripleDESCryptoServiceProvider triDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                            {
+                                ICryptoTransform transform = triDes.CreateDecryptor();
+                                byte[] results = transform.TransformFinalBlock(data2, 0, data2.Length);
+                                str = UTF8Encoding.UTF8.GetString(results);
+                            }
+                        }
+
                         Invoke(new MethodInvoker(delegate ()
                         {
-                            listBox1.Items.Add(str + "TEST");
+                            listBox1.Items.Add(str);
                             textBox1.Text = "";
                         }));
                         
-
                     }
                 }
                 catch (SocketException se)
