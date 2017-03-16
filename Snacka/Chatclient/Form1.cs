@@ -157,7 +157,8 @@ namespace Chatclient
             {
                 Console.WriteLine(sentMsg);
 
-                string complSentMsg = userName + ": " + sentMsg;
+                string time = DateTime.Now.ToString("HH:mm:ss tt");
+                string complSentMsg = userName + ": " + time + " " + sentMsg;
 
                 //Krypterar compSentMsg
                 //Console.WriteLine("Skriv en text");
