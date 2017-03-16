@@ -123,6 +123,7 @@ namespace Chatclient
                                 textBox1.Text = "";
                             }));
                         }
+
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
@@ -255,7 +256,11 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
                 }
@@ -268,6 +273,12 @@ namespace Chatclient
                     listeningToServer = false;
                     socket = null;
 
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
+
                     //try
                     //{
                     //    button2.Text = "Connect";
@@ -278,7 +289,7 @@ namespace Chatclient
                     //    Console.WriteLine("InvalidOperationException ioe");
                     //    Console.WriteLine(ioe.Message);
                     //}
-                    
+
                 }
             }
 
@@ -311,6 +322,12 @@ namespace Chatclient
                         Console.WriteLine("No server found");
                     }
 
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
+
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
                 }
@@ -318,6 +335,13 @@ namespace Chatclient
                 else
                 {
                     listeningToServer = false;
+
+
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
 
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
