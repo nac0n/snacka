@@ -12,7 +12,7 @@ namespace ServerSnacka
     {
         public static string data = "";
         public static List<Socket>_clientSocketsList = new List<Socket>();
-        //public static List<Thread> threads = new List<Thread>();
+        
         
         public static int Main(String[] args)
         {

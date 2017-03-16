@@ -23,7 +23,6 @@ namespace Chatclient
         //static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         //static IPAddress ipAddress = ipHostInfo.AddressList[0];
         //public static string ip = "192.168.56.1";
-        //public static long ipadress = Convert.ToInt64(ip);
 
         static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
