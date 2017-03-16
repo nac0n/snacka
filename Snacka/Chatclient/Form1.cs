@@ -123,7 +123,6 @@ namespace Chatclient
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
-                                textBox1.Text = "";
                             }));
                         }
                         catch (Exception e)
@@ -158,7 +157,7 @@ namespace Chatclient
                 Console.WriteLine(sentMsg);
 
                 string time = DateTime.Now.ToString("HH:mm:ss tt");
-                string complSentMsg = userName + ": " + time + " " + sentMsg;
+                string complSentMsg = userName + " @ " + time + " : " + sentMsg;
 
                 //Krypterar compSentMsg
                 //Console.WriteLine("Skriv en text");
