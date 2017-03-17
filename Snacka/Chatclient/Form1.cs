@@ -20,8 +20,9 @@ namespace Chatclient
         private void Form1_Load(object sender, EventArgs e)
         {
             // Create a TCP/IP  socket.  
-            
-            
+            textBox4.Text = Program.userName;
+
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -39,7 +40,6 @@ namespace Chatclient
         private void button1_Click(object sender, EventArgs e)
         {
             //Send button
-
             string userName = textBox4.Text;
 
             if (textBox4.Text == null)

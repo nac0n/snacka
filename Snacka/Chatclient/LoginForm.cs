@@ -57,6 +57,7 @@ namespace Chatclient
             {
                 Form1 chat = new Form1();
                 this.Hide();
+                Program.userName = textBox1.Text.Trim();
                 chat.Show();
             }
             else
