@@ -23,8 +23,10 @@ namespace Chatclient
         //static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         //static IPAddress ipAddress = ipHostInfo.AddressList[0];
         //public static string ip = "192.168.56.1";
+        IPEndPoint remoteEP;
+        
 
-        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
+        
         public static bool listeningToServer = false;
 
         public Form1()
@@ -238,7 +240,10 @@ namespace Chatclient
                 {
 
                     //CONNECT
+                    string endPoint = textBox2.Text + ":" + textBox3.Text;
                     
+                    remoteEP = CreateIPEndPoint(endPoint);
+                    Console.WriteLine(endPoint);
                     socket = new Socket(AddressFamily.InterNetwork,
                             SocketType.Stream, ProtocolType.Tcp);
                     try
@@ -247,8 +252,7 @@ namespace Chatclient
                         listeningToServer = true;
                         Thread t = new Thread(() => ListenToServer(socket));
                         t.Start();
-                        
-                       
+
                     }
 
                     catch (SocketException)
@@ -370,5 +374,13 @@ namespace Chatclient
                 button1.PerformClick();
             }
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            //string IpAdress = textBox2.Text;
+            //Console.WriteLine(IpAdress);
+        }
+
+        
     }
 }
