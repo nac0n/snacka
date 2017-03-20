@@ -26,6 +26,7 @@ namespace Chatclient
 
         static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
+        public static bool ClientIsTyping = false;
 
         public Form1()
         {
@@ -58,14 +59,26 @@ namespace Chatclient
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //User's typebox
+            ClientIsTyping = true;
             Console.Write("User types ");
         }
+        
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
+        public void SendTypeState()
+        {
+            while(true)
+            {
+                if (ClientIsTyping)
+                {
+
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -119,6 +132,7 @@ namespace Chatclient
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
+                                ClientIsTyping = false;
                             }));
                         }
 
@@ -157,8 +171,6 @@ namespace Chatclient
                 string complSentMsg = userName + " @ " + time + " : " + sentMsg;
 
                 //Krypterar compSentMsg
-                //Console.WriteLine("Skriv en text");
-                //string Text = Console.ReadLine();
                 byte[] data1 = UTF8Encoding.UTF8.GetBytes(complSentMsg);
                 using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
                 {
@@ -174,11 +186,7 @@ namespace Chatclient
 
                 // Encode the data string into a byte array.  
                 byte[] msg = Encoding.UTF8.GetBytes(complSentMsg);
-
-          // Encode the data string into a byte array.  
-          //byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
                 
-
                 // Send the data through the socket.  
                 try
                 {
@@ -210,6 +218,7 @@ namespace Chatclient
                         Invoke(new MethodInvoker(delegate ()
                         {
                             listBox1.Items.Add(str);
+                            ClientIsTyping = false;
                             textBox1.Text = "";
                         }));
                         
@@ -236,7 +245,7 @@ namespace Chatclient
             {
                 if (socket.Connected == false)
                 {
-
+                   
                     //CONNECT
                     
                     socket = new Socket(AddressFamily.InterNetwork,
@@ -333,6 +342,7 @@ namespace Chatclient
 
                 else
                 {
+
                     listeningToServer = false;
 
 
@@ -356,11 +366,6 @@ namespace Chatclient
                 return false;
             else
                 return true;
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)

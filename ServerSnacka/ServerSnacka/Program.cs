@@ -13,7 +13,6 @@ namespace ServerSnacka
         public static string data = "";
         public static List<Socket>_clientSocketsList = new List<Socket>();
         
-        
         public static int Main(String[] args)
         {
             StartListening();
@@ -30,19 +29,19 @@ namespace ServerSnacka
                     _clientSocketsList.RemoveAt(i);
                 }
             }
-           
         }
 
         public static void SendToAllClients(byte[] msg)
         {
             CheckAndFixAvailableClients();
-            Console.WriteLine("CLIENTS:");
             int temp = 1;
+
+            Console.WriteLine("TRYING TO FIND CLIENTS...");
             foreach (Socket client in _clientSocketsList)
             {
                 try
                 {
-                    Console.WriteLine("FOUND CLIENTS, SENDING...");
+                    Console.WriteLine("FOUND CLIENT, SENDING MESSAGE...");
                     client.Send(msg);
                     temp += 1;
                 }
@@ -51,7 +50,7 @@ namespace ServerSnacka
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("SENT!");
+            Console.WriteLine("DONE SENDING!");
             
         }
 
