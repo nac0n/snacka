@@ -36,6 +36,7 @@ namespace Chatclient
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            textBox4.Text = Program.userName;
 
         }
 
@@ -54,6 +55,9 @@ namespace Chatclient
                 throw new FormatException("Invalid port");
             }
             return new IPEndPoint(ip, port);
+            // Create a TCP/IP  socket.  
+
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

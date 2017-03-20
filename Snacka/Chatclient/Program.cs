@@ -8,6 +8,8 @@ namespace Chatclient
 {
     static class Program
     {
+        public static string userName;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +18,8 @@ namespace Chatclient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new LoginForm());
+            //Application.Run(new Form1());
         }
     }
 }
