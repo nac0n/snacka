@@ -23,10 +23,10 @@ namespace Chatclient
         //static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
         //static IPAddress ipAddress = ipHostInfo.AddressList[0];
         //public static string ip = "192.168.56.1";
-        //public static long ipadress = Convert.ToInt64(ip);
 
-        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.56.1:11000"); /*new IPEndPoint(ipAddress, 11000);*/
+        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
+        public static bool ClientIsTyping = false;
 
         public Form1()
         {
@@ -63,16 +63,26 @@ namespace Chatclient
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //User's typebox
+            ClientIsTyping = true;
             Console.Write("User types ");
-            listBox1.Text = "User";
-
         }
+        
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
+        public void SendTypeState()
+        {
+            while(true)
+            {
+                if (ClientIsTyping)
+                {
+
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -94,7 +104,6 @@ namespace Chatclient
             while(listeningToServer == true)
             {
                 byte[] bytes = new byte[1024];
-
 
                 try
                 {
@@ -127,9 +136,10 @@ namespace Chatclient
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
-                                textBox1.Text = "";
+                                ClientIsTyping = false;
                             }));
                         }
+
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
@@ -161,11 +171,10 @@ namespace Chatclient
             {
                 Console.WriteLine(sentMsg);
 
-                string complSentMsg = userName + ": " + sentMsg;
+                string time = DateTime.Now.ToString("HH:mm:ss tt");
+                string complSentMsg = userName + " @ " + time + " : " + sentMsg;
 
                 //Krypterar compSentMsg
-                //Console.WriteLine("Skriv en text");
-                //string Text = Console.ReadLine();
                 byte[] data1 = UTF8Encoding.UTF8.GetBytes(complSentMsg);
                 using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
                 {
@@ -181,11 +190,7 @@ namespace Chatclient
 
                 // Encode the data string into a byte array.  
                 byte[] msg = Encoding.UTF8.GetBytes(complSentMsg);
-
-          // Encode the data string into a byte array.  
-          //byte[] msg = Encoding.UTF8.GetBytes(userName + ": " + sentMsg + "");
                 
-
                 // Send the data through the socket.  
                 try
                 {
@@ -217,6 +222,7 @@ namespace Chatclient
                         Invoke(new MethodInvoker(delegate ()
                         {
                             listBox1.Items.Add(str);
+                            ClientIsTyping = false;
                             textBox1.Text = "";
                         }));
                         
@@ -243,7 +249,7 @@ namespace Chatclient
             {
                 if (socket.Connected == false)
                 {
-
+                   
                     //CONNECT
                     
                     socket = new Socket(AddressFamily.InterNetwork,
@@ -262,7 +268,11 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
                 }
@@ -275,6 +285,12 @@ namespace Chatclient
                     listeningToServer = false;
                     socket = null;
 
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
+
                     //try
                     //{
                     //    button2.Text = "Connect";
@@ -285,7 +301,7 @@ namespace Chatclient
                     //    Console.WriteLine("InvalidOperationException ioe");
                     //    Console.WriteLine(ioe.Message);
                     //}
-                    
+
                 }
             }
 
@@ -318,13 +334,27 @@ namespace Chatclient
                         Console.WriteLine("No server found");
                     }
 
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
+
                     //button2.Text = "Disconnect";
                     //listBox1.Items.Add("You are now connected");
                 }
 
                 else
                 {
+
                     listeningToServer = false;
+
+
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
 
                     //button2.Text = "Connect";
                     //listBox1.Items.Add("You are now disconnected");
@@ -340,11 +370,6 @@ namespace Chatclient
                 return false;
             else
                 return true;
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
