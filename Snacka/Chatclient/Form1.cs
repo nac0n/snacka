@@ -142,6 +142,7 @@ namespace Chatclient
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
+                                textBox1.Text = "";
                                 ClientIsTyping = false;
                             }));
                         }
