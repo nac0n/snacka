@@ -14,8 +14,7 @@ namespace Chatclient
         //Kryptering hash
         string hash = "f0xle@rn";
 
-        protected Thread SendThread;
-        protected Thread ConnectThread;
+        protected Thread SendThread, ConnectThread;
         protected Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
         string userName;
@@ -94,6 +93,7 @@ namespace Chatclient
         private void button2_Click(object sender, EventArgs e)
         {
             //Connect button
+            Console.WriteLine("Why you do dis");
             ConnectThread = new Thread(() => ConnectionUser());
             ConnectThread.Start();
 
@@ -219,12 +219,12 @@ namespace Chatclient
                             }
                         }
 
-                        Invoke(new MethodInvoker(delegate ()
-                        {
-                            listBox1.Items.Add(str);
-                            ClientIsTyping = false;
-                            textBox1.Text = "";
-                        }));
+                        //Invoke(new MethodInvoker(delegate ()
+                        //{
+                        //    listBox1.Items.Add(str);
+                        //    ClientIsTyping = false;
+                        //    textBox1.Text = "";
+                        //}));
                         
                     }
                 }
@@ -245,36 +245,38 @@ namespace Chatclient
         private void ConnectionUser()
         {
             //Connect/Disconnect button event
+
+            Console.WriteLine("1");
             if (socket != null)
             {
+                Console.WriteLine("2");
                 if (socket.Connected == false)
                 {
-                   
+
                     //CONNECT
-                    
+                    Console.WriteLine("3");
                     socket = new Socket(AddressFamily.InterNetwork,
                             SocketType.Stream, ProtocolType.Tcp);
                     try
                     {
+                        Console.WriteLine("Tries connecting...");
                         socket.Connect(remoteEP);
                         listeningToServer = true;
+                        Console.WriteLine("Started connection Thread");
                         Thread t = new Thread(() => ListenToServer(socket));
                         t.Start();
                         
-                       
                     }
 
                     catch (SocketException)
                     {
                         Console.WriteLine("No server found");
                     }
-                    Invoke(new MethodInvoker(delegate ()
-                    {
-                        button2.Text = "Disconnect";
-                        listBox1.Items.Add("You are now connected");
-                    }));
-                    //button2.Text = "Disconnect";
-                    //listBox1.Items.Add("You are now connected");
+                    //Invoke(new MethodInvoker(delegate ()
+                    //{
+                    //    button2.Text = "Disconnect";
+                    //    listBox1.Items.Add("You are now connected");
+                    //}));
                 }
 
                 else
@@ -285,23 +287,12 @@ namespace Chatclient
                     listeningToServer = false;
                     socket = null;
 
-                    Invoke(new MethodInvoker(delegate ()
-                    {
-                        button2.Text = "Connect";
-                        listBox1.Items.Add("You are now disconnected");
-                    }));
-
-                    //try
+                    //Invoke(new MethodInvoker(delegate ()
                     //{
                     //    button2.Text = "Connect";
                     //    listBox1.Items.Add("You are now disconnected");
-                    //}
-                    //catch (InvalidOperationException ioe)
-                    //{
-                    //    Console.WriteLine("InvalidOperationException ioe");
-                    //    Console.WriteLine(ioe.Message);
-                    //}
-
+                    //}));
+                    
                 }
             }
 
@@ -334,14 +325,11 @@ namespace Chatclient
                         Console.WriteLine("No server found");
                     }
 
-                    Invoke(new MethodInvoker(delegate ()
-                    {
-                        button2.Text = "Disconnect";
-                        listBox1.Items.Add("You are now connected");
-                    }));
-
-                    //button2.Text = "Disconnect";
-                    //listBox1.Items.Add("You are now connected");
+                    //Invoke(new MethodInvoker(delegate ()
+                    //{
+                    //    button2.Text = "Disconnect";
+                    //    listBox1.Items.Add("You are now connected");
+                    //}));
                 }
 
                 else
@@ -350,14 +338,12 @@ namespace Chatclient
                     listeningToServer = false;
 
 
-                    Invoke(new MethodInvoker(delegate ()
-                    {
-                        button2.Text = "Connect";
-                        listBox1.Items.Add("You are now disconnected");
-                    }));
-
-                    //button2.Text = "Connect";
-                    //listBox1.Items.Add("You are now disconnected");
+                    //Invoke(new MethodInvoker(delegate ()
+                    //{
+                    //    button2.Text = "Connect";
+                    //    listBox1.Items.Add("You are now disconnected");
+                    //}));
+                    
                 }
             }
         }
