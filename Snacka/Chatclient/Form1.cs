@@ -11,6 +11,7 @@ namespace Chatclient
 {
     public partial class Form1 : Form
     {
+
         //Kryptering hash
         string hash = "f0xle@rn";
 
@@ -38,6 +39,7 @@ namespace Chatclient
         {
             textBox4.Text = Program.userName;
 
+
         }
 
         public static IPEndPoint CreateIPEndPoint(string endPoint)
@@ -60,11 +62,15 @@ namespace Chatclient
 
         }
 
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //User's typebox
             ClientIsTyping = true;
             Console.Write("User types ");
+            var remaining = textBox1.MaxLength - textBox1.TextLength;
+            countdown.Text = remaining + " characters remaining";
+
         }
         
 
@@ -379,5 +385,7 @@ namespace Chatclient
                 button1.PerformClick();
             }
         }
+
+       
     }
 }
