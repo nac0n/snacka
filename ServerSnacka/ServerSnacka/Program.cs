@@ -191,10 +191,10 @@ namespace ServerSnacka
             // Establish the local endpoint for the socket.  
             // Dns.GetHostName returns the name of the   
             // host running the application.  
-            //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-           // IPAddress ipAddress = ipHostInfo.AddressList[0];
-            //IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
-            IPEndPoint localEndPoint = CreateIPEndPoint("192.168.153.113:11000");
+           IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+            //IPEndPoint localEndPoint = CreateIPEndPoint("192.168.153.113:11000");
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(AddressFamily.InterNetwork,

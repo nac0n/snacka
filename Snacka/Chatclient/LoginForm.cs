@@ -71,5 +71,15 @@ namespace Chatclient
         {
             throw new NotImplementedException();
         }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                Login.PerformClick();
+            }
+        }
     }
+
+   
 }
