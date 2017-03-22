@@ -23,7 +23,7 @@ namespace Chatclient
         //static IPAddress ipAddress = ipHostInfo.AddressList[0];
         //public static string ip = "192.168.56.1";
 
-        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000"); /*new IPEndPoint(ipAddress, 11000);*/
+        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.56.1:11000"); /*new IPEndPoint(ipAddress, 11000);*/
         public static bool listeningToServer = false;
         public static bool ClientIsTyping = false;
 
@@ -219,13 +219,13 @@ namespace Chatclient
                             }
                         }
 
-                        //Invoke(new MethodInvoker(delegate ()
-                        //{
-                        //    listBox1.Items.Add(str);
-                        //    ClientIsTyping = false;
-                        //    textBox1.Text = "";
-                        //}));
-                        
+                        Invoke(new MethodInvoker(delegate ()
+                        {
+                            listBox1.Items.Add(str);
+                            ClientIsTyping = false;
+                            textBox1.Text = "";
+                        }));
+
                     }
                 }
                 catch (SocketException se)
@@ -272,11 +272,11 @@ namespace Chatclient
                     {
                         Console.WriteLine("No server found");
                     }
-                    //Invoke(new MethodInvoker(delegate ()
-                    //{
-                    //    button2.Text = "Disconnect";
-                    //    listBox1.Items.Add("You are now connected");
-                    //}));
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
                 }
 
                 else
@@ -287,12 +287,12 @@ namespace Chatclient
                     listeningToServer = false;
                     socket = null;
 
-                    //Invoke(new MethodInvoker(delegate ()
-                    //{
-                    //    button2.Text = "Connect";
-                    //    listBox1.Items.Add("You are now disconnected");
-                    //}));
-                    
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
+
                 }
             }
 
@@ -325,11 +325,11 @@ namespace Chatclient
                         Console.WriteLine("No server found");
                     }
 
-                    //Invoke(new MethodInvoker(delegate ()
-                    //{
-                    //    button2.Text = "Disconnect";
-                    //    listBox1.Items.Add("You are now connected");
-                    //}));
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Disconnect";
+                        listBox1.Items.Add("You are now connected");
+                    }));
                 }
 
                 else
@@ -338,12 +338,12 @@ namespace Chatclient
                     listeningToServer = false;
 
 
-                    //Invoke(new MethodInvoker(delegate ()
-                    //{
-                    //    button2.Text = "Connect";
-                    //    listBox1.Items.Add("You are now disconnected");
-                    //}));
-                    
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        button2.Text = "Connect";
+                        listBox1.Items.Add("You are now disconnected");
+                    }));
+
                 }
             }
         }

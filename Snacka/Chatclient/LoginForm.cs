@@ -89,7 +89,7 @@ namespace Chatclient
             Socket socket = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
 
-            IPEndPoint remoteEP = CreateIPEndPoint("192.168.153.113:11000");
+            IPEndPoint remoteEP = CreateIPEndPoint("192.168.56.1:11000");
 
             try
             {
