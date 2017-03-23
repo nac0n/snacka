@@ -11,6 +11,7 @@ namespace Chatclient
 {
     public partial class Form1 : Form
     {
+
         //Kryptering hash
         string hash = "f0xle@rn";
 
@@ -19,11 +20,10 @@ namespace Chatclient
                     SocketType.Stream, ProtocolType.Tcp);
         string userName;
 
-        //static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-        //static IPAddress ipAddress = ipHostInfo.AddressList[0];
+        static IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+        static IPAddress ipAddress = ipHostInfo.AddressList[0];
         //public static string ip = "192.168.56.1";
-
-        static IPEndPoint remoteEP = CreateIPEndPoint("192.168.56.1:11000"); /*new IPEndPoint(ipAddress, 11000);*/
+        static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);/*CreateIPEndPoint("192.168.153.113:11000");*/
         public static bool listeningToServer = false;
         public static bool ClientIsTyping = false;
 
@@ -36,6 +36,7 @@ namespace Chatclient
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox4.Text = Program.userName;
+
 
         }
 
@@ -59,11 +60,15 @@ namespace Chatclient
 
         }
 
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //User's typebox
             ClientIsTyping = true;
             Console.Write("User types ");
+            var remaining = textBox1.MaxLength - textBox1.TextLength;
+            countdown.Text = remaining + " characters remaining";
+
         }
         
 
@@ -136,6 +141,7 @@ namespace Chatclient
                             Invoke(new MethodInvoker(delegate ()
                             {
                                 listBox1.Items.Add(str);
+                                textBox1.Text = "";
                                 ClientIsTyping = false;
                             }));
                         }
@@ -365,5 +371,7 @@ namespace Chatclient
                 button1.PerformClick();
             }
         }
+
+       
     }
 }
